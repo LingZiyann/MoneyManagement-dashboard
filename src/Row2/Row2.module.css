@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@300;400&family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600&display=swap');
+
+.Row2Container{
+    width: 95%;
+    height: 40%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5em;
+}
+
+
+.TransactionsContainer{
+    background-color: white;
+    width: 49.6%;
+    height: 100%;
+    border-radius: 15px;
+}
+
+.GraphContainer{
+    background-color: white;
+    width: 49.6%;
+    height: 100%;
+    border-radius: 15px;
+}
+
+.MyResponsiveLine{
+    margin-bottom: 50em;
+}

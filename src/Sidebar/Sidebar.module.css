@@ -1,0 +1,10 @@
+.Sidebarcontainer{
+    flex: 1;
+    text-align: left;
+    background-color: #040d1c;
+}
+
+ul p {
+    color: white;
+
+}

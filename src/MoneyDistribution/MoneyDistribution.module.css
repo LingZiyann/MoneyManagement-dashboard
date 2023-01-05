@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@300;400&family=Roboto+Flex:opsz,wght@8..144,400;8..144,500;8..144,600&family=Titillium+Web:wght@300;400&display=swap');
+.container {
+    display: flex;
+    justify-content: space-between;
+    height: 20%;
+    width: 95%;
+}
+
+.container div{
+    background-color: white;
+    width: 33%;
+    height: 100%;
+    border-radius: 15px;
+    text-align: left;
+}
+
+.container div p{
+    font-size: 1.5em;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    margin-left: 0.5em;
+    margin-bottom: 0em;
+}
+
+.container div span{
+    font-size: 2rem;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 300;
+    margin-left: 0.5rem;
+    color: black;
+
+}
