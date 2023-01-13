@@ -1,13 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
-import Home from './Home/Home';
+import Home from './Pages/Home/Home';
 import MySidebar from './Sidebar/Sidebar';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Transactions from './Pages/Account/Account';
 
 function App() {
   return (
     <div className="App">
+      <BrowserRouter>
         <MySidebar></MySidebar>
-        <Home></Home>
+        <Routes>
+          <Route path="/" element={<Home/>}></Route>
+          <Route path="/Home" element={<Home/>}></Route>
+          <Route path='/Transactions' element={<Transactions/>}></Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
