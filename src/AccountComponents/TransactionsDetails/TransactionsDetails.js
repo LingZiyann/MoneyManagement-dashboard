@@ -1,7 +1,7 @@
-import classes from './AccountDetails.module.css'
-import NewFormModal from '../ModalForm/NewFormModal';
+import classes from './TransactionsDetails.module.css'
+import NewFormModal from '../../Forms/ModalForm/NewFormModal';
 import { Fragment, useState, useEffect } from 'react';
-import NewForm from '../AddNewForm/NewForm';
+import NewForm from '../../Forms/AddNewForm/NewForm';
 
 const AccountDetails = (props) => {
     const [ModalOpen, setModalOpen] = useState(false)

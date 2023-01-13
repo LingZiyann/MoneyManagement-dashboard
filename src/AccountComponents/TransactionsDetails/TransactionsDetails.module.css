@@ -3,6 +3,8 @@
     width: 95%;
     height: 98.6%;
     border-radius: 15px;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
 .Header{
