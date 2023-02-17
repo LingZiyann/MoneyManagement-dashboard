@@ -1,15 +1,11 @@
-import classes from './TransactionsDetails.module.css'
-import NewFormModal from '../../Forms/ModalForm/NewFormModal';
+import classes from './Expenses.module.css'
+import NewFormModal from '../Forms/ModalForm/NewFormModal';
 import { Fragment, useState, useEffect } from 'react';
-import NewForm from '../../Forms/AddNewForm/NewForm';
-import PiechartData from '../../UI/PieChartData';
+import NewForm from '../Forms/AddNewForm/NewForm';
 
-const AccountDetails = (props) => {
-    const [ModalOpen, setModalOpen] = useState(false);
-    const [formList, setFormList] = useState([]);
-    const [totalAmountSpent, setTotalAmountSpent] = useState(0);
-
-
+const Expenses = (props) => {
+    const [ModalOpen, setModalOpen] = useState(false)
+    const [formList, setFormList] = useState([])
     const OpenModal = () => {
         setModalOpen(true);
     }
@@ -17,28 +13,26 @@ const AccountDetails = (props) => {
         setModalOpen(false);
     }
     async function addDataHandler (data) {
-        const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/transactions.json', {
+        const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/planner.json', {
             method: 'POST',
             body: JSON.stringify(data),
         });
+        const newData = await response.json();
+        console.log(newData);
     }
 
     async function getDataHandler () {
-        const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/transactions.json')
+        const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/planner.json')
         const myData = await response.json();
-        const transactionsList = [];
+        const plannerList = [];
         for (const key in myData){
-            transactionsList.push({
+            plannerList.push({
                 id: key,
-                radioData: myData[key].radioData,
                 activityName: myData[key].activityName,
                 amountSpent: myData[key].amountSpent,
             })
-            
         }
-        setFormList(transactionsList);
-        const result = formList.reduce((total, currentValue) => total = parseInt(total) + parseInt(currentValue.amountSpent),0);
-        setTotalAmountSpent(result);
+        setFormList(plannerList);
         
     }
 
@@ -46,17 +40,14 @@ const AccountDetails = (props) => {
         getDataHandler();
     },[])
 
-    const FormList = formList.map((form) => {
-        return (
+    const FormList = formList.map((form) => (
         <NewForm
             number={formList.indexOf(form) + 1}
             activityName={form.activityName}
             amountSpent={'$' + form.amountSpent}
-            radioData={form.radioData}
         />
-        )
-    })
-    console.log(totalAmountSpent)
+    ))
+
 
     return(
         <Fragment>
@@ -65,7 +56,7 @@ const AccountDetails = (props) => {
                 <p>Filter</p>
                 <table>
                     <tr className={classes.Header}>
-                        <th>{totalAmountSpent}</th>
+                        <th>Number</th>
                         <th>Name</th>
                         <th>Amount</th>
                         <th>Date</th>
@@ -80,4 +71,4 @@ const AccountDetails = (props) => {
     );
 };
 
-export default AccountDetails;
+export default Expenses;

@@ -1,6 +1,6 @@
-import classes from './MoneyDistribution.module.css'
+import classes from './Row1.module.css'
 
-const MoneyDistribution = () => {
+const Row1 = () => {
     return(
             <div className={classes.container}>
                 <div className={classes.balance}>
@@ -19,4 +19,4 @@ const MoneyDistribution = () => {
     );
 };
 
-export default MoneyDistribution;
+export default Row1;

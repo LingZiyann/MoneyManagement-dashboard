@@ -3,34 +3,28 @@ import { ResponsivePie } from '@nivo/pie'
 const MyPiechart = () => {
     const data = [
         {
-          "id": "java",
-          "label": "java",
+          "id": "Food",
+          "label": "Food",
           "value": 84,
           "color": "hsl(170, 70%, 50%)"
         },
         {
-          "id": "go",
-          "label": "go",
+          "id": "Personal",
+          "label": "Personal",
           "value": 460,
           "color": "hsl(346, 70%, 50%)"
         },
         {
-          "id": "c",
-          "label": "c",
+          "id": "Investment",
+          "label": "Investment",
           "value": 548,
           "color": "hsl(277, 70%, 50%)"
         },
         {
-          "id": "rust",
-          "label": "rust",
+          "id": "Utilities",
+          "label": "Utilities",
           "value": 437,
           "color": "hsl(338, 70%, 50%)"
-        },
-        {
-          "id": "erlang",
-          "label": "erlang",
-          "value": 368,
-          "color": "hsl(211, 70%, 50%)"
         }
       ]
 
