@@ -23,7 +23,8 @@ button{
     padding: 0 16px 0 16px; 
     transition: 0.3s; 
     cursor: pointer; 
-    margin-top: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
 } 
         
 button:hover{
@@ -38,6 +39,9 @@ button:hover{
 table{
     width: 100%;
     border-spacing: 0;
+    table-layout: auto;
+    
+
 }
 
 tr th{

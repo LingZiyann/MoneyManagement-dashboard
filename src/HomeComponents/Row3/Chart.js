@@ -1,274 +1,123 @@
 import { ResponsiveLine } from '@nivo/line'
+import { useEffect, useState } from 'react';
 
 const MyResponsiveLine = () =>{
+  const [janSpendings, setJanSpendings] = useState(0);
+  const [febSpendings, setFebSpendings] = useState(0);
+  const [marSpendings, setMarSpendings] = useState(0);
+  const [aprSpendings, setAprSpendings] = useState(0);
+  const [maySpendings, setMaySpendings] = useState(0);
+  const [juneSpendings, setJuneSpendings] = useState(0);
+  const [julyspendings, setJulySpendings] = useState(0);
+  const [augSpendings, setAugSpendings] = useState(0);
+  const [sepSpendings, setSepSpendings] = useState(0);
+  const [octSpendings, setOctSpendings] = useState(0);
+  const [novSpendings, setNovSpendings] = useState(0);
+  const [decSpendings, setDecSpendings] = useState(0);
+
+  async function getDataHandler () {
+    const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/transactions.json')
+    const myData = await response.json();
+    for (const key in myData){
+      const date = new Date(myData[key].date)
+      const month = date.getMonth() + 1
+      switch (month){
+        case 1:
+          setJanSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+          break;
+        case 2:
+          setFebSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+          break;
+        case 3:
+          setMarSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+          break;   
+        case 4:
+          setAprSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+          break;
+        case 5:
+          setMaySpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+          break;
+        case 6:
+          setJuneSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+          break;
+        case 7:
+          setJulySpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+          break;
+        case 8:
+          setAugSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+          break;
+        case 9:
+          setSepSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+          break;
+        case 10:
+          setOctSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+          break;
+        case 11:
+          setNovSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+          break;
+        case 12:
+          setDecSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+          break; 
+      }
+      };       
+    }
+
+    useEffect(() => {
+      getDataHandler();
+    },[]);
+
     const mydata = [
         {
-          "id": "japan",
+          "id": "Money Spent",
           "color": "hsl(218, 70%, 50%)",
           "data": [
             {
-              "x": "plane",
-              "y": 23
+              "x": "January",
+              "y": janSpendings/2
             },
             {
-              "x": "helicopter",
-              "y": 123
+              "x": "February",
+              "y": febSpendings/2
             },
             {
-              "x": "boat",
-              "y": 72
+              "x": "March",
+              "y": marSpendings/2
             },
             {
-              "x": "train",
-              "y": 228
+              "x": "April",
+              "y": aprSpendings/2
             },
             {
-              "x": "subway",
-              "y": 100
+              "x": "May",
+              "y": maySpendings/2
             },
             {
-              "x": "bus",
-              "y": 256
+              "x": "June",
+              "y": juneSpendings/2
             },
             {
-              "x": "car",
-              "y": 227
+              "x": "July",
+              "y": julyspendings/2
             },
             {
-              "x": "moto",
-              "y": 199
+              "x": "August",
+              "y": augSpendings/2
             },
             {
-              "x": "bicycle",
-              "y": 3
+              "x": "September",
+              "y": sepSpendings/2
             },
             {
-              "x": "horse",
-              "y": 105
+              "x": "October",
+              "y": octSpendings/2
             },
             {
-              "x": "skateboard",
-              "y": 182
+              "x": "November",
+              "y": novSpendings/2
             },
             {
-              "x": "others",
-              "y": 182
-            }
-          ]
-        },
-        {
-          "id": "france",
-          "color": "hsl(245, 70%, 50%)",
-          "data": [
-            {
-              "x": "plane",
-              "y": 268
-            },
-            {
-              "x": "helicopter",
-              "y": 101
-            },
-            {
-              "x": "boat",
-              "y": 243
-            },
-            {
-              "x": "train",
-              "y": 123
-            },
-            {
-              "x": "subway",
-              "y": 102
-            },
-            {
-              "x": "bus",
-              "y": 163
-            },
-            {
-              "x": "car",
-              "y": 266
-            },
-            {
-              "x": "moto",
-              "y": 261
-            },
-            {
-              "x": "bicycle",
-              "y": 120
-            },
-            {
-              "x": "horse",
-              "y": 193
-            },
-            {
-              "x": "skateboard",
-              "y": 73
-            },
-            {
-              "x": "others",
-              "y": 207
-            }
-          ]
-        },
-        {
-          "id": "us",
-          "color": "hsl(129, 70%, 50%)",
-          "data": [
-            {
-              "x": "plane",
-              "y": 264
-            },
-            {
-              "x": "helicopter",
-              "y": 259
-            },
-            {
-              "x": "boat",
-              "y": 241
-            },
-            {
-              "x": "train",
-              "y": 201
-            },
-            {
-              "x": "subway",
-              "y": 113
-            },
-            {
-              "x": "bus",
-              "y": 196
-            },
-            {
-              "x": "car",
-              "y": 37
-            },
-            {
-              "x": "moto",
-              "y": 8
-            },
-            {
-              "x": "bicycle",
-              "y": 29
-            },
-            {
-              "x": "horse",
-              "y": 137
-            },
-            {
-              "x": "skateboard",
-              "y": 172
-            },
-            {
-              "x": "others",
-              "y": 228
-            }
-          ]
-        },
-        {
-          "id": "germany",
-          "color": "hsl(56, 70%, 50%)",
-          "data": [
-            {
-              "x": "plane",
-              "y": 82
-            },
-            {
-              "x": "helicopter",
-              "y": 254
-            },
-            {
-              "x": "boat",
-              "y": 124
-            },
-            {
-              "x": "train",
-              "y": 119
-            },
-            {
-              "x": "subway",
-              "y": 241
-            },
-            {
-              "x": "bus",
-              "y": 149
-            },
-            {
-              "x": "car",
-              "y": 249
-            },
-            {
-              "x": "moto",
-              "y": 166
-            },
-            {
-              "x": "bicycle",
-              "y": 105
-            },
-            {
-              "x": "horse",
-              "y": 171
-            },
-            {
-              "x": "skateboard",
-              "y": 12
-            },
-            {
-              "x": "others",
-              "y": 243
-            }
-          ]
-        },
-        {
-          "id": "norway",
-          "color": "hsl(167, 70%, 50%)",
-          "data": [
-            {
-              "x": "plane",
-              "y": 163
-            },
-            {
-              "x": "helicopter",
-              "y": 168
-            },
-            {
-              "x": "boat",
-              "y": 102
-            },
-            {
-              "x": "train",
-              "y": 171
-            },
-            {
-              "x": "subway",
-              "y": 172
-            },
-            {
-              "x": "bus",
-              "y": 229
-            },
-            {
-              "x": "car",
-              "y": 117
-            },
-            {
-              "x": "moto",
-              "y": 19
-            },
-            {
-              "x": "bicycle",
-              "y": 275
-            },
-            {
-              "x": "horse",
-              "y": 53
-            },
-            {
-              "x": "skateboard",
-              "y": 245
-            },
-            {
-              "x": "others",
-              "y": 271
+              "x": "December",
+              "y": decSpendings/2
             }
           ]
         }
@@ -277,13 +126,13 @@ const MyResponsiveLine = () =>{
         return(
             <ResponsiveLine
             data={mydata}
-            margin={{ top: 0, right: 110, bottom: 70, left: 60 }}
+            margin={{ top: 20, right: 110, bottom: 70, left: 60 }}
             xScale={{ type: 'point' }}
             yScale={{
                 type: 'linear',
                 min: 'auto',
                 max: 'auto',
-                stacked: true,
+                stacked: false,
                 reverse: false
             }}
             yFormat=" >-.2f"

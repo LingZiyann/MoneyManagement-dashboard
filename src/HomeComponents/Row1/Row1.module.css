@@ -6,6 +6,11 @@
     width: 95%;
 }
 
+span{
+
+    margin-left: 0px;
+}
+
 .container div{
     background-color: white;
     width: 33%;
@@ -18,7 +23,7 @@
     font-size: 1.5em;
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
-    margin-left: 0.5em;
+    margin-left: 8px;
     margin-bottom: 0em;
 }
 

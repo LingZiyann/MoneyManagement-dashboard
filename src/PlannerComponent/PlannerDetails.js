@@ -1,13 +1,14 @@
-import classes from './TransactionsDetails.module.css'
-import NewFormModal from '../../Forms/ModalForm/NewFormModal';
+import classes from './PlannerDetails.module.css';
+import NewFormModal from '../Forms/ModalForm/NewFormModal';
+import NewForm from '../Forms/AddNewForm/NewForm';
 import { Fragment, useState, useEffect } from 'react';
-import NewForm from '../../Forms/AddNewForm/NewForm';
 
 
-const TransactionsDetails = (props) => {
+const PlannerDetails = (props) => {
     const [ModalOpen, setModalOpen] = useState(false);
     const [formList, setFormList] = useState([]);
     const [removeFormId, setRemoveFormId] = useState();
+
 
     const OpenModal = () => {
         setModalOpen(true);
@@ -22,16 +23,15 @@ const TransactionsDetails = (props) => {
 
     useEffect(() => {
         deleteDataHandler();
-        // getDataHandler();
     },[removeFormId])
 
 
     async function getDataHandler () {
-        const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/transactions.json')
+        const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/planner.json')
         const myData = await response.json();
-        const transactionsList = [];
+        const plannerList = [];
         for (const key in myData){
-            transactionsList.push({
+            plannerList.push({
                 id: key,
                 date: myData[key].date,
                 radioData: myData[key].radioData,
@@ -39,13 +39,13 @@ const TransactionsDetails = (props) => {
                 amountSpent: myData[key].amountSpent,
             })
             
-        };
-        setFormList(transactionsList);
+        }
+        setFormList(plannerList);
         
     };
 
     async function addDataHandler (data) {
-        const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/transactions.json', {
+        const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/planner.json', {
             method: 'POST',
             body: JSON.stringify(data),
         });
@@ -54,18 +54,18 @@ const TransactionsDetails = (props) => {
 
 
     async function deleteDataHandler (data) {
-        const response = await fetch(`https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/transactions/${removeFormId}.json`, {
+        const response = await fetch(`https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/planner/${removeFormId}.json`, {
             method: 'DELETE',
             body: JSON.stringify(data),
         });
-        getDataHandler()
+        getDataHandler();
     };
 
     useEffect(() => {
         getDataHandler();
     },[])
 
-    console.log('refershed')
+
 
     const FormList = formList.map((form) => {
         return (
@@ -79,10 +79,9 @@ const TransactionsDetails = (props) => {
             radioData={form.radioData}
             deleteForm={deleteForm}
         />
-        );
-        });
+        )
+    })
 
-    
     return(
         <Fragment>
             <div className={classes.container}>
@@ -98,14 +97,14 @@ const TransactionsDetails = (props) => {
                             <th>Category</th>   
                             <th>Delete</th>
                         </tr>
-                    </tbody>
-                    {FormList}   
-                </table>    
-                    
-                {ModalOpen ? (<NewFormModal CloseModal={CloseModal} submitData={addDataHandler} getData={getDataHandler} radioDataNeeded={true}/>) : null}
+                    </tbody>    
+                    {FormList}
+                </table>   
+                
+                {ModalOpen ? (<NewFormModal CloseModal={CloseModal} submitData={addDataHandler} getData={getDataHandler} radioDataNeeded={false}/>) : null}
             </div>
         </Fragment>
     );
 };
 
-export default TransactionsDetails;
+export default PlannerDetails;

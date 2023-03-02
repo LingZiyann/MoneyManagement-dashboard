@@ -1,29 +1,59 @@
 import { ResponsivePie } from '@nivo/pie'
+import { useState, useEffect } from 'react';
 
 const MyPiechart = () => {
+    const [investmentAmount, setInvestmentAmount] = useState(0);
+    const [utilitiesAmount, setUtilitiesAmount] = useState(0);
+    const [personalAmount, setPersonalAmount] = useState(0);
+    const [foodAmount, setFoodAmount] = useState(0);
+
+    async function getDataHandler () {
+        const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/transactions.json');
+        const myData = await response.json();
+        for (const key in myData){
+            if (myData[key].radioData == "Investment"){
+                
+                setInvestmentAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent));                
+            } else if (myData[key].radioData == "Food"){
+                
+                setFoodAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent)); 
+            } else if (myData[key].radioData == "Utilities"){
+                
+                setUtilitiesAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent)); 
+            }else if (myData[key].radioData == "Personal"){
+                
+                setPersonalAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent)); 
+            }
+            };
+        };
+
+    useEffect(() => {
+        getDataHandler();
+    },[]);
+
     const data = [
         {
           "id": "Food",
           "label": "Food",
-          "value": 84,
+          "value": foodAmount/2,
           "color": "hsl(170, 70%, 50%)"
         },
         {
           "id": "Personal",
           "label": "Personal",
-          "value": 460,
+          "value": personalAmount/2,
           "color": "hsl(346, 70%, 50%)"
         },
         {
           "id": "Investment",
           "label": "Investment",
-          "value": 548,
+          "value": investmentAmount/2,
           "color": "hsl(277, 70%, 50%)"
         },
         {
           "id": "Utilities",
           "label": "Utilities",
-          "value": 437,
+          "value": utilitiesAmount/2,
           "color": "hsl(338, 70%, 50%)"
         }
       ]
