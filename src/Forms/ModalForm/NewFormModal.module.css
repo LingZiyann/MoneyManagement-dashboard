@@ -27,10 +27,8 @@
 
 .radio{
     flex-direction: row;
-
     justify-content: center;
     width: 100%;
-
 }
 
 .radio input{
@@ -73,3 +71,32 @@ background-color: #fff;
 color: #0066cc;
 border: solid 2px #0066cc;
 } */
+
+@media only screen and (max-width: 720px){
+    button{
+        min-width: 70px;
+    }
+
+    .radio{
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+        padding-top: 10px;
+    }
+    .radio label{
+        font-size: 0.7rem;
+    }
+}
+
+@media only screen and (max-width: 820px){
+    button{
+        min-width: 40px;
+    }
+
+    .radio{
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+        padding-top: 10px;
+    }
+}

@@ -4,7 +4,7 @@
     height: 98.6%;
     border-radius: 15px;
     overflow: scroll;
-    overflow-x: hidden;
+
 }
 
 button{
@@ -34,14 +34,10 @@ button:hover{
     transition: 0.3s; 
 } 
         
-
-
 table{
     width: 100%;
     border-spacing: 0;
     table-layout: auto;
-    
-
 }
 
 tr th{
@@ -81,3 +77,8 @@ ul{
     margin: 0;
 }
 
+@media only screen and (max-width: 500px) {
+    *{
+        font-size: 0.8rem;
+    }
+}

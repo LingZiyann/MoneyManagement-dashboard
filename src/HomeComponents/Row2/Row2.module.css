@@ -8,15 +8,14 @@
     margin-top: 0.5em;
 }
 
-
-.TransactionsContainer{
+.PieChartContainer{
     background-color: white;
     width: 49.6%;
     height: 100%;
     border-radius: 15px;
 }
 
-.GraphContainer{
+.LineContainer{
     background-color: white;
     width: 49.6%;
     height: 100%;
@@ -25,4 +24,27 @@
 
 .MyResponsiveLine{
     margin-bottom: 50em;
+}
+
+@media screen and (max-width: 1050px){
+    .Row2Container{
+        display: flex;
+        flex-direction: column;
+        height: 50%;
+    }
+
+    .PieChartContainer{
+        height: 50%;
+        width: 100%;
+        margin-top: 0.5em;
+
+    }
+    .LineContainer{
+        height: 50%;
+        width: 100%;
+    }
+
+    .LineContainer text{
+        font-size: 4px;
+    }
 }

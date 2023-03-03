@@ -6,7 +6,7 @@ const NewFormModal = (props) => {
         const [isNumber, setIsNumber] = useState(false);
         const [radioDataEntered, setRadioDataEntered] = useState(false);
         const [formTouched, setFormTouched] = useState(false);
-        const [radioDataMandatory, setRadioDataMandatory] = useState();
+        const [radioDataMandatory, setRadioDataMandatory] = useState(props.radioDataNeeded);
         const activityInputRef = useRef();
         const amountInputRef = useRef();
         const dateInputRef = useRef();      

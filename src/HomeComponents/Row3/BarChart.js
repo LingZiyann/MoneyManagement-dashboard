@@ -1,7 +1,7 @@
 import { ResponsiveBar } from '@nivo/bar'
 import { useEffect, useState } from 'react'
 
-const MyResponsiveBar = () => {
+const MyResponsiveBar = (props) => {
 
     const [janData, setJanData] = useState({
         food: 0,
@@ -368,7 +368,7 @@ const MyResponsiveBar = () => {
 
     const data = [
         {
-          "country": "January",
+          "month": "Jan",
           "Food": janData.food/2,
           "FoodColor": "hsl(213, 70%, 50%)",
           "Personal": janData.personal/2,
@@ -379,7 +379,7 @@ const MyResponsiveBar = () => {
           "UtilitiesColor": "hsl(233, 70%, 50%)",
         },
         {
-          "country": "February",
+          "month": "Feb",
           "Food": febData.food/2,
           "FoodColor": "hsl(188, 70%, 50%)",
           "Personal": febData.personal/2,
@@ -391,7 +391,7 @@ const MyResponsiveBar = () => {
 
         },
         {
-          "country": "March",
+          "month": "Mar",
           "Food": marData.food/2,
           "FoodColor": "hsl(270, 70%, 50%)",
           "Personal": marData.personal/2,
@@ -403,7 +403,7 @@ const MyResponsiveBar = () => {
 
         },
         {
-          "country": "April",
+          "month": "Apr",
           "Food": aprData.food/2,
           "FoodColor": "hsl(284, 70%, 50%)",
           "Personal": aprData.personal/2,
@@ -414,7 +414,7 @@ const MyResponsiveBar = () => {
           "UtilitiesColor": "hsl(164, 70%, 50%)",
         },
         {
-          "country": "May",
+          "month": "May",
           "Food": mayData.food/2,
           "FoodColor": "hsl(146, 70%, 50%)",
           "Personal": mayData.personal/2,
@@ -425,7 +425,7 @@ const MyResponsiveBar = () => {
           "UtilitiesColor": "hsl(92, 70%, 50%)",
         },
         {
-          "country": "June",
+          "month": "Jun",
           "Food": juneData.food/2,
           "FoodColor": "hsl(260, 70%, 50%)",
           "Personal": juneData.personal/2,
@@ -436,7 +436,7 @@ const MyResponsiveBar = () => {
           "UtilitiesColor": "hsl(236, 70%, 50%)",
         },
         {
-          "country": "July",
+          "month": "Jul",
           "Food": julyData.food/2,
           "FoodColor": "hsl(249, 70%, 50%)",
           "Personal": julyData.personal/2,
@@ -447,7 +447,7 @@ const MyResponsiveBar = () => {
           "UtilitiesColor": "hsl(257, 70%, 50%)",
         },
         {
-            "country": "August",
+            "month": "Aug",
             "Food": augData.food/2,
             "FoodColor": "hsl(249, 70%, 50%)",
             "Personal": augData.personal/2,
@@ -458,7 +458,7 @@ const MyResponsiveBar = () => {
             "UtilitiesColor": "hsl(257, 70%, 50%)",
           },
           {
-            "country": "September",
+            "month": "Sep",
             "Food": sepData.food/2,
             "FoodColor": "hsl(249, 70%, 50%)",
             "Personal": sepData.personal/2,
@@ -469,7 +469,7 @@ const MyResponsiveBar = () => {
             "UtilitiesColor": "hsl(257, 70%, 50%)",
           },
           {
-            "country": "October",
+            "month": "Oct",
             "Food": octData.food/2,
             "FoodColor": "hsl(249, 70%, 50%)",
             "Personal": octData.personal/2,
@@ -480,7 +480,7 @@ const MyResponsiveBar = () => {
             "UtilitiesColor": "hsl(257, 70%, 50%)",
           },
           {
-            "country": "November",
+            "month": "Nov",
             "Food": novData.food/2,
             "FoodColor": "hsl(249, 70%, 50%)",
             "Personal": novData.personal/2,
@@ -491,7 +491,7 @@ const MyResponsiveBar = () => {
             "UtilitiesColor": "hsl(257, 70%, 50%)",
           },
           {
-            "country": "December",
+            "month": "Dec",
             "Food": decData.food/2,
             "FoodColor": "hsl(249, 70%, 50%)",
             "Personal": decData.personal/2,
@@ -507,14 +507,15 @@ const MyResponsiveBar = () => {
     return (
     <ResponsiveBar
         data={data}
+        theme={{"axis" :  {"ticks" : {"text" : {"fontSize" : props.fontSize}}}}}
         keys={[
             'Food',
             'Personal',
             'Investment',
             'Utilities'
         ]}
-        indexBy="country"
-        margin={{ top: 40, right: 100, bottom: 80, left: 50 }}
+        indexBy="month"
+        margin={{ top: 40, right: 110, bottom: 80, left: 50 }}
         padding={0.3}
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
@@ -568,7 +569,7 @@ const MyResponsiveBar = () => {
             tickSize: 5,
             tickPadding: 5,
             tickRotation: 0,
-            legend: 'country',
+            legend: 'Month',
             legendPosition: 'middle',
             legendOffset: 32
         }}
@@ -617,7 +618,7 @@ const MyResponsiveBar = () => {
         ]}
         role="application"
         ariaLabel="Nivo bar chart demo"
-        barAriaLabel={function(e){return e.id+": "+e.formattedValue+" in country: "+e.indexValue}}
+        barAriaLabel={function(e){return e.id+": "+e.formattedValue+" in month: "+e.indexValue}}
     />)
 }
 

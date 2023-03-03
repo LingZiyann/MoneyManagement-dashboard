@@ -11,6 +11,13 @@
   pointer-events: none;
 }
 
+@media screen and (max-width: 800px){
+  .App{
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

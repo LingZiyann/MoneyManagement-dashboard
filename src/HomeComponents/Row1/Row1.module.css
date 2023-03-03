@@ -28,10 +28,19 @@ span{
 }
 
 .container div span{
-    font-size: 2rem;
+    font-size: 2em;
     font-family: 'Titillium Web', sans-serif;
     font-weight: 300;
     margin-left: 0.5rem;
     color: black;
 
+}
+
+@media only screen and (max-width: 420px){
+    /* .container div p{
+        font-size: 1em;
+    }
+    .container div span{
+        font-size: 1.5em;
+    } */
 }

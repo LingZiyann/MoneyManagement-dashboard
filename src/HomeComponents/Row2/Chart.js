@@ -1,7 +1,8 @@
 import { ResponsiveLine } from '@nivo/line'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import classes from './Chart.module.css';
 
-const MyResponsiveLine = () =>{
+const MyResponsiveLine = (props) =>{
   const [janSpendings, setJanSpendings] = useState(0);
   const [febSpendings, setFebSpendings] = useState(0);
   const [marSpendings, setMarSpendings] = useState(0);
@@ -66,25 +67,26 @@ const MyResponsiveLine = () =>{
       getDataHandler();
     },[]);
 
+
     const mydata = [
         {
           "id": "Money Spent",
           "color": "hsl(218, 70%, 50%)",
           "data": [
             {
-              "x": "January",
+              "x": "Jan",
               "y": janSpendings/2
             },
             {
-              "x": "February",
+              "x": "Feb",
               "y": febSpendings/2
             },
             {
-              "x": "March",
+              "x": "Mar",
               "y": marSpendings/2
             },
             {
-              "x": "April",
+              "x": "Apr",
               "y": aprSpendings/2
             },
             {
@@ -92,31 +94,31 @@ const MyResponsiveLine = () =>{
               "y": maySpendings/2
             },
             {
-              "x": "June",
+              "x": "Jun",
               "y": juneSpendings/2
             },
             {
-              "x": "July",
+              "x": "Jul",
               "y": julyspendings/2
             },
             {
-              "x": "August",
+              "x": "Aug",
               "y": augSpendings/2
             },
             {
-              "x": "September",
+              "x": "Sep",
               "y": sepSpendings/2
             },
             {
-              "x": "October",
+              "x": "Oct",
               "y": octSpendings/2
             },
             {
-              "x": "November",
+              "x": "Nov",
               "y": novSpendings/2
             },
             {
-              "x": "December",
+              "x": "Dec",
               "y": decSpendings/2
             }
           ]
@@ -126,6 +128,7 @@ const MyResponsiveLine = () =>{
         return(
             <ResponsiveLine
             data={mydata}
+            theme={{"axis" :  {"ticks" : {"text" : {"fontSize" : props.fontSize}}}}}
             margin={{ top: 20, right: 110, bottom: 70, left: 60 }}
             xScale={{ type: 'point' }}
             yScale={{
@@ -143,7 +146,7 @@ const MyResponsiveLine = () =>{
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
-                legend: 'transportation',
+                legend: 'Month',
                 legendOffset: 36,
                 legendPosition: 'middle'
             }}
