@@ -11,16 +11,16 @@ const MyPiechart = () => {
         const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/transactions.json');
         const myData = await response.json();
         for (const key in myData){
-            if (myData[key].radioData == "Investment"){
+            if (myData[key].radioData === "Investment"){
                 
                 setInvestmentAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent));                
-            } else if (myData[key].radioData == "Food"){
+            } else if (myData[key].radioData === "Food"){
                 
                 setFoodAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent)); 
-            } else if (myData[key].radioData == "Utilities"){
+            } else if (myData[key].radioData === "Utilities"){
                 
                 setUtilitiesAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent)); 
-            }else if (myData[key].radioData == "Personal"){
+            }else if (myData[key].radioData === "Personal"){
                 
                 setPersonalAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent)); 
             }
@@ -165,9 +165,9 @@ const MyPiechart = () => {
                 anchor: 'bottom',
                 direction: 'row',
                 justify: false,
-                translateX: 0,
+                translateX: 20,
                 translateY: 56,
-                itemsSpacing: -15,
+                itemsSpacing: -10,
                 itemWidth: 100,
                 itemHeight: 18,
                 itemTextColor: '#999',

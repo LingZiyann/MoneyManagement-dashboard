@@ -1,6 +1,5 @@
 import classes from './Row2.module.css'
 import MyPiechart from './Piechart';
-import MyResponsiveBar from '../Row3/BarChart';
 import MyResponsiveLine from './Chart';
 
 const Row2 = (props) => {
@@ -8,7 +7,7 @@ const Row2 = (props) => {
   return(
     <div className={classes.Row2Container}>
         <div className={classes.LineContainer}>
-          <p>Recent transactions</p>
+          <p>Total money spent over time</p>
           <MyResponsiveLine fontSize={props.fontSize}></MyResponsiveLine>
         </div>
         <div className={classes.PieChartContainer}>
