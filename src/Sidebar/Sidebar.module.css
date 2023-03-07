@@ -49,13 +49,18 @@
         width: 100%;
     }
     .SidebarcontainerClosed{
-        
+        height: 5%;
     }
     .closeIcon{
         width: 1.5rem;
         height: 1.5rem;
         padding-left: 93%;
     }
+    
+    .openIcon{
+        font-size: 2.7rem;
+    }
+    
     .list p{
         font-size: 10px;
     }
