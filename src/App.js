@@ -10,7 +10,7 @@ import Planner from './Pages/Planner/Planner';
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter basename='/MoneyManagement-dashboard'>
         <MySidebar></MySidebar>
         <Routes>
           <Route path="/" element={<Home/>}></Route>
