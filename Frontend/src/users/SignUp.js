@@ -36,7 +36,7 @@ const SignUp = () => {
         if (formState.formTouched && formState.isValid){
             try {
                 console.log('signing up!')
-                const response = await fetch(process.env.BACKEND_URL + `signup`, {
+                const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/signup`, {
                     method: 'POST',
                     headers: {
                         'Content-Type' : 'application/json'
