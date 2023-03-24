@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const formSchema = new mongoose.Schema({
-    number:{
-        type: Number,
+    category:{
+        type: String
     },
     activityName:{
         type: String

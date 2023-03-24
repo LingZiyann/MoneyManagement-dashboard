@@ -7,8 +7,9 @@ import { Fragment, useState, useEffect } from 'react';
 const PlannerDetails = (props) => {
     const [ModalOpen, setModalOpen] = useState(false);
     const [formList, setFormList] = useState([]);
-    const [removeFormId, setRemoveFormId] = useState();
-
+    const [removeFormId, setRemoveFormId] = useState('');
+    const token = localStorage.getItem('token')
+    const uid = localStorage.getItem('userId')
 
     const OpenModal = () => {
         setModalOpen(true);
@@ -25,40 +26,70 @@ const PlannerDetails = (props) => {
         deleteDataHandler();
     },[removeFormId])
 
-
     async function getDataHandler () {
-        const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/planner.json')
+        const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${uid}/planner`, {
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : `Bearer ${token}`
+            }
+        });
         const myData = await response.json();
-        const plannerList = [];
+        const transactionsList = [];
         for (const key in myData){
-            plannerList.push({
-                id: key,
+            if (myData[key].date !== null){
+            transactionsList.push({
+                id: myData[key]._id,
+                date: myData[key].date.slice(0, 10).split('-').reverse().join('-'),
+                radioData: myData[key].radioData,
+                activityName: myData[key].activityName,
+                amountSpent: myData[key].amountSpent,
+                })
+            } else {
+                transactionsList.push({
+                id: myData[key]._id,
                 date: myData[key].date,
                 radioData: myData[key].radioData,
                 activityName: myData[key].activityName,
                 amountSpent: myData[key].amountSpent,
-            })
+                })
+            }
             
-        }
-        setFormList(plannerList);
+        };
+        setFormList(transactionsList);
         
     };
 
+
     async function addDataHandler (data) {
-        const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/planner.json', {
-            method: 'POST',
-            body: JSON.stringify(data),
-        });
+        try{
+            const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Authorization' : `Bearer ${token}`
+                },
+                body: JSON.stringify(data),
+            });
+        } catch (e) {
+            console.log(e);
+        }
         getDataHandler();
     };
 
-
     async function deleteDataHandler (data) {
-        const response = await fetch(`https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/planner/${removeFormId}.json`, {
+        if (removeFormId === ''){
+            return
+        }
+        const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${removeFormId}`, {
             method: 'DELETE',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : `Bearer ${token}`
+            },
             body: JSON.stringify(data),
         });
-        getDataHandler();
+        getDataHandler()
     };
 
     useEffect(() => {
@@ -101,7 +132,7 @@ const PlannerDetails = (props) => {
                     {FormList}
                 </table>   
                 
-                {ModalOpen ? (<NewFormModal CloseModal={CloseModal} submitData={addDataHandler} getData={getDataHandler} radioDataNeeded={false}/>) : null}
+                {ModalOpen ? (<NewFormModal CloseModal={CloseModal} submitData={addDataHandler} getData={getDataHandler} radioDataNeeded={false} category={"planner"}/>) : null}
             </div>
         </Fragment>
     );

@@ -18,7 +18,9 @@ const NewFormModal = (props) => {
                     amountSpent: amountInputRef.current.value,
                     date: dateInputRef.current.value,
                     radioData: radioDataInput,
+                    category: props.category
                     };
+                    console.log(data);
                     props.submitData(data);
                     props.CloseModal();
                 };
@@ -54,7 +56,7 @@ const NewFormModal = (props) => {
                     <form onSubmit={SubmitFormHandler}>
                         <div>
                             <label for='activity'>Activity name</label>
-                            <input className={classes.textInput} placeholder='name' type="text" id="activity" name="activity" ref={activityInputRef}></input>
+                            <input className={classes.textInput} type="text" id="activity" name="activity" ref={activityInputRef}></input>
                         </div>
                         <div>
                             <label for='amount'>Amount spent</label>

@@ -6,25 +6,35 @@ const MyPiechart = () => {
     const [utilitiesAmount, setUtilitiesAmount] = useState(0);
     const [personalAmount, setPersonalAmount] = useState(0);
     const [foodAmount, setFoodAmount] = useState(0);
+    const token = localStorage.getItem('token');
+    const uid = localStorage.getItem('userId')
 
     async function getDataHandler () {
-        const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/transactions.json');
+        const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${uid}/transactions`, {
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : `Bearer ${token}`
+                }
+            });
         const myData = await response.json();
         for (const key in myData){
-            if (myData[key].radioData === "Investment"){
-                
-                setInvestmentAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent));                
-            } else if (myData[key].radioData === "Food"){
-                
-                setFoodAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent)); 
-            } else if (myData[key].radioData === "Utilities"){
-                
-                setUtilitiesAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent)); 
-            }else if (myData[key].radioData === "Personal"){
-                
-                setPersonalAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent)); 
+            if (myData[key].date !== null) {
+                if (myData[key].radioData === "Investment"){
+                    
+                    setInvestmentAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent));                
+                } else if (myData[key].radioData === "Food"){
+                    
+                    setFoodAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent)); 
+                } else if (myData[key].radioData === "Utilities"){
+                    
+                    setUtilitiesAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent)); 
+                }else if (myData[key].radioData === "Personal"){
+                    
+                    setPersonalAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent)); 
+                }
+                };
             }
-            };
         };
 
     useEffect(() => {
@@ -35,25 +45,25 @@ const MyPiechart = () => {
         {
           "id": "Food",
           "label": "Food",
-          "value": foodAmount/2,
+          "value": foodAmount,
           "color": "hsl(170, 70%, 50%)"
         },
         {
           "id": "Personal",
           "label": "Personal",
-          "value": personalAmount/2,
+          "value": personalAmount,
           "color": "hsl(346, 70%, 50%)"
         },
         {
           "id": "Investment",
           "label": "Investment",
-          "value": investmentAmount/2,
+          "value": investmentAmount,
           "color": "hsl(277, 70%, 50%)"
         },
         {
           "id": "Utilities",
           "label": "Utilities",
-          "value": utilitiesAmount/2,
+          "value": utilitiesAmount,
           "color": "hsl(338, 70%, 50%)"
         }
       ]

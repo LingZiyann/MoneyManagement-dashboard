@@ -12,12 +12,13 @@ const signup = async (req, res) => {
         console.log(err);
     };
     if (existingUser) {
-        return res.send("name exists");
+        const error = new Error('user exists');
+        return res.status(403).send(error);
     };
     try {
         await user.save();
-        user.generateAuthToken();
-        res.send("successfully signed up");
+        const token = await user.generateAuthToken();
+        res.status(201).send({ user, token })
     } catch (err) {
         res.send(err);
         console.log(err);
@@ -28,7 +29,7 @@ const login = async (req, res) => {
     try{
         const user = await User.findByCredentials(req.body.name, req.body.password);
         const token = user.generateAuthToken();
-        res.send("logged in!");
+        res.send({user, token});
     } catch (e){
         res.send("Unable to login!");
         console.log(e);

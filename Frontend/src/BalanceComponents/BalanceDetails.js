@@ -1,13 +1,16 @@
 import classes from './BalanceDetails.module.css'
 import NewFormModal from '../Forms/ModalForm/NewFormModal';
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState, useEffect, useLayoutEffect, useRef } from 'react';
 import NewForm from '../Forms/AddNewForm/NewForm';
 
 
 const BalanceDetails = (props) => {
     const [ModalOpen, setModalOpen] = useState(false);
     const [formList, setFormList] = useState([]);
-    const [removeFormId, setRemoveFormId] = useState();
+    const [removeFormId, setRemoveFormId] = useState('');
+    const effectRan = useRef(false);
+    const token = localStorage.getItem('token')
+    const uid = localStorage.getItem('userId')
 
     const OpenModal = () => {
         setModalOpen(true);
@@ -15,54 +18,107 @@ const BalanceDetails = (props) => {
     const CloseModal = () => {
         setModalOpen(false);
     };
-
     const deleteForm = (e) => {
         setRemoveFormId(e.currentTarget.id);
+    };
+
+    const getDataHandler = async function () {
+        const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${uid}/balance`, {
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : `Bearer ${token}`
+            }
+        });
+        const myData = await response.json();
+        const transactionsList = [];
+        for (const key in myData){
+            if (myData[key].date !== null){
+            transactionsList.push({
+                id: myData[key]._id,
+                date: myData[key].date.slice(0, 10).split('-').reverse().join('-'),
+                radioData: myData[key].radioData,
+                activityName: myData[key].activityName,
+                amountSpent: myData[key].amountSpent,
+                })
+            } else {
+                transactionsList.push({
+                id: myData[key]._id,
+                date: myData[key].date,
+                radioData: myData[key].radioData,
+                activityName: myData[key].activityName,
+                amountSpent: myData[key].amountSpent,
+                })
+            }
+            
+        };
+        setFormList(transactionsList);
+        console.log('get')
+        localStorage.setItem('formData', JSON.stringify(formList));
         
+    };
+
+
+    const addDataHandler =  async function (data) {
+        try{
+            const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/json',
+                    'Authorization' : `Bearer ${token}`
+                },
+                body: JSON.stringify(data),
+            });
+        } catch (e) {
+            console.log(e);
+        }
+        console.log('add')
+        getDataHandler();
+    };
+
+    const deleteDataHandler =  async function (data) {
+        if (removeFormId === ''){
+            return
+        }
+        const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${removeFormId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : `Bearer ${token}`
+            },
+            body: JSON.stringify(data),
+        });
+        getDataHandler()
     };
 
     useEffect(() => {
         deleteDataHandler();
-    },[removeFormId])
-
-
-    async function getDataHandler () {
-        const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/balance.json')
-        const myData = await response.json();
-        const balanceList = [];
-        for (const key in myData){
-            balanceList.push({
-                id: key,
-                date: myData[key].date,
-                activityName: myData[key].activityName,
-                amountSpent: myData[key].amountSpent,
-            })
-        }
-        setFormList(balanceList);
-    };
-
-    async function addDataHandler (data) {
-        const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/balance.json', {
-            method: 'POST',
-            body: JSON.stringify(data),
-        });
-        getDataHandler();
-
-    };
-
-    async function deleteDataHandler (data) {
-        const response = await fetch(`https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/balance/${removeFormId}.json`, {
-            method: 'DELETE',
-            body: JSON.stringify(data),
-        });
-        getDataHandler();
-    };
+    }, [removeFormId])
 
     useEffect(() => {
         getDataHandler();
-    },[])
+    }, [])
 
-    const FormList = formList.map((form) => (
+    // useEffect(() => {
+    //     if (effectRan.current === false){
+    //         deleteDataHandler();
+    //         console.log("run")
+    //         effectRan.current = true;
+    //     }
+    // },[removeFormId])
+
+    // useEffect(() => {
+    //     localStorage.setItem('formData', JSON.stringify(formList));
+    // }, [formList])
+
+    // useEffect(() => {
+    //     const data = localStorage.getItem('formData');
+    //     setFormList(JSON.parse(data));
+    // }, [])
+
+
+
+    let FormList = formList.map((form) => (
         <NewForm
             key={form.id}
             buttonId={form.id}
@@ -96,7 +152,7 @@ const BalanceDetails = (props) => {
                     {FormList}  
                 </table>   
                 
-                {ModalOpen ? (<NewFormModal CloseModal={CloseModal} submitData={addDataHandler} getData={getDataHandler} radioDataNeeded={false}/>) : null}
+                {ModalOpen ? (<NewFormModal CloseModal={CloseModal} submitData={addDataHandler} getData={getDataHandler} radioDataNeeded={false} category={"balance"}/>) : null}
             </div>
         </Fragment>
     );

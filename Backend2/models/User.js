@@ -32,7 +32,7 @@ userSchema.virtual('forms', {
 
 userSchema.methods.generateAuthToken = async function () {
     const user = this;
-    const token = jwt.sign({ _id: user._id.toString()}, "fullstackproject");
+    const token = jwt.sign({ _id: user._id.toString()}, process.env.JWT_KEY);
     user.tokens = user.tokens.concat({ token: token })
     await user.save()
     return token;
@@ -41,7 +41,8 @@ userSchema.methods.generateAuthToken = async function () {
 userSchema.statics.findByCredentials = async function (name, password) {
     const user = await User.findOne({ name: name });
     if (!user){
-        throw new Error('User not found')
+        const error = new Error('User not found');
+        return res.status(404).send(error);
     }
 
 
@@ -49,7 +50,8 @@ userSchema.statics.findByCredentials = async function (name, password) {
     if (isMatch){
         return user
     } else {
-        throw new Error("failed!")
+        const error = new Error('Wrong password!');
+        return res.status(401).send(error);
     }
 
 }

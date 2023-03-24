@@ -1,15 +1,35 @@
 import classes from './Row1.module.css'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const Row1 = () => {
     const [totalAmountSpent,setTotalAmountSpent] = useState(0);
     const [totalBalance, setTotalBalance] = useState(0);
     const [totalMoneyNeeded, setTotalMoneyNeeded] = useState(0);
+    const token = localStorage.getItem('token');
+    const uid = localStorage.getItem('userId');
 
     async function getDataHandler () {
-        const response1 = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/transactions.json')
-        const response2 = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/balance.json')
-        const response3 = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/planner.json')
+        const response1 = await fetch(process.env.REACT_APP_BACKEND_URL +`/form/${uid}/transactions`,{
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : `Bearer ${token}`
+            }
+        })
+        const response2 = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${uid}/balance`,{
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : `Bearer ${token}`
+            }
+        })
+        const response3 = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${uid}/planner`,{
+            method: 'GET',
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : `Bearer ${token}`
+            }
+        })
         const myData1 = await response1.json();
         const myData2 = await response2.json();
         const myData3 = await response3.json();
@@ -24,22 +44,25 @@ const Row1 = () => {
         };
     };
 
-    useEffect(() => {getDataHandler();}, [])
+    useEffect(() => {
+        getDataHandler();
+    }, [])
+
 
 
     return(
             <div className={classes.container}>
                 <div className={classes.balance}>
                     <p>Account Balance</p>
-                    <span>{'$' + totalBalance/2}</span>
+                    <span>{'$' + totalBalance}</span>
                 </div>
                 <div className={classes.expenditure}>
                     <p>Money Spent:</p>
-                    <span>{'$' + totalAmountSpent/2}</span>
+                    <span>{'$' + totalAmountSpent}</span>
                 </div>
                 <div className={classes.needed}>
                     <p>Money Needed:</p>
-                    <span>{'$' + totalMoneyNeeded/2}</span>
+                    <span>{'$' + totalMoneyNeeded}</span>
                 </div>
             </div>
     );

@@ -15,53 +15,63 @@ const MyResponsiveLine = (props) =>{
   const [octSpendings, setOctSpendings] = useState(0);
   const [novSpendings, setNovSpendings] = useState(0);
   const [decSpendings, setDecSpendings] = useState(0);
+  const token = localStorage.getItem('token');
+  const uid = localStorage.getItem('userId')
 
   async function getDataHandler () {
-    const response = await fetch('https://money-management-5452c-default-rtdb.asia-southeast1.firebasedatabase.app/transactions.json')
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL +`/form/${uid}/transactions`, {
+      method: 'GET',
+      headers: {
+          'Content-Type' : 'application/json',
+          'Authorization' : `Bearer ${token}`
+        }
+      });
     const myData = await response.json();
     for (const key in myData){
-      const date = new Date(myData[key].date)
-      const month = date.getMonth() + 1
-      switch (month){
-        case 1:
-          setJanSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
-          break;
-        case 2:
-          setFebSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
-          break;
-        case 3:
-          setMarSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
-          break;   
-        case 4:
-          setAprSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
-          break;
-        case 5:
-          setMaySpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
-          break;
-        case 6:
-          setJuneSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
-          break;
-        case 7:
-          setJulySpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
-          break;
-        case 8:
-          setAugSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
-          break;
-        case 9:
-          setSepSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
-          break;
-        case 10:
-          setOctSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
-          break;
-        case 11:
-          setNovSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
-          break;
-        case 12:
-          setDecSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
-          break; 
+      if (myData[key].date !== null) {
+        const date = new Date(myData[key].date)
+        const month = date.getMonth() + 1
+        switch (month){
+          case 1:
+            setJanSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            break;
+          case 2:
+            setFebSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            break;
+          case 3:
+            setMarSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            break;   
+          case 4:
+            setAprSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            break;
+          case 5:
+            setMaySpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            break;
+          case 6:
+            setJuneSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            break;
+          case 7:
+            setJulySpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            break;
+          case 8:
+            setAugSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            break;
+          case 9:
+            setSepSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            break;
+          case 10:
+            setOctSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            break;
+          case 11:
+            setNovSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            break;
+          case 12:
+            setDecSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            break; 
+          }
+          };
+        }      
       }
-      };       
-    }
 
     useEffect(() => {
       getDataHandler();
@@ -75,51 +85,51 @@ const MyResponsiveLine = (props) =>{
           "data": [
             {
               "x": "Jan",
-              "y": janSpendings/2
+              "y": janSpendings
             },
             {
               "x": "Feb",
-              "y": febSpendings/2
+              "y": febSpendings
             },
             {
               "x": "Mar",
-              "y": marSpendings/2
+              "y": marSpendings
             },
             {
               "x": "Apr",
-              "y": aprSpendings/2
+              "y": aprSpendings
             },
             {
               "x": "May",
-              "y": maySpendings/2
+              "y": maySpendings
             },
             {
               "x": "Jun",
-              "y": juneSpendings/2
+              "y": juneSpendings
             },
             {
               "x": "Jul",
-              "y": julyspendings/2
+              "y": julyspendings
             },
             {
               "x": "Aug",
-              "y": augSpendings/2
+              "y": augSpendings
             },
             {
               "x": "Sep",
-              "y": sepSpendings/2
+              "y": sepSpendings
             },
             {
               "x": "Oct",
-              "y": octSpendings/2
+              "y": octSpendings
             },
             {
               "x": "Nov",
-              "y": novSpendings/2
+              "y": novSpendings
             },
             {
               "x": "Dec",
-              "y": decSpendings/2
+              "y": decSpendings
             }
           ]
         }

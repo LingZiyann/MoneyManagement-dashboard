@@ -1,5 +1,6 @@
 const Form = require('../models/form');
-const HttpError = require('../models/httpError')
+const HttpError = require('../models/httpError');
+const User = require('../models/User');
 
 
 const createForm = async (req, res) => {
@@ -9,7 +10,6 @@ const createForm = async (req, res) => {
     })
 
     try {
-        console.log(req.user._id)
         await form.save();
         res.status(201).send(form);
     } catch (e) {
@@ -42,17 +42,32 @@ const deleteForm = async (req, res) => {
 //     }
 // }
 
-const getForm = async (req, res) => {
-    const radioData = await req.params.radioData;
-    // const userId = Form.find({ owner: req.user._id })
+const getFormByCategory = async (req, res) => {
+    const category = await req.params.category;
+    const uid = await req.params.uid;
+    const user = await User.findOne({ _id: uid})
     try{
-        await req.user.populate({
+        await user.populate({
             path: 'forms',
             match: {
-                radioData : radioData
+                category : category,
             }
         });
-        res.send(req.user.forms);
+        res.send(user.forms);
+    } catch (e) {
+        res.status(500).send(e)
+        console.log(e)
+    }
+}
+
+const getAllForm = async (req, res) => {
+    const uid = await req.params.uid;
+    const user = await User.findOne({ _id: uid})
+    try{
+        await user.populate({
+            path: 'forms',
+        });
+        res.send(user.forms);
     } catch (e) {
         res.status(500).send(e)
         console.log(e)
@@ -61,4 +76,5 @@ const getForm = async (req, res) => {
 
 exports.createForm = createForm;
 exports.deleteForm = deleteForm;
-exports.getForm = getForm;
+exports.getFormByCategory = getFormByCategory;
+exports.getAllForm = getAllForm;
