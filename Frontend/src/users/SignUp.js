@@ -1,6 +1,7 @@
 import { useReducer, useRef, useState, useContext, useNavigate } from "react";
 import { AuthContext } from "../context/auth-context";
 import classes from "./SignUp.module.css";
+import { NavLink } from "react-router-dom";
 
 const SignUp = () => {
     const auth = useContext(AuthContext);
@@ -71,19 +72,21 @@ const SignUp = () => {
 
 
     return(
-        <div className={classes.card}>
+        <div className={classes.container}>
             <form className={classes.form} onSubmit={signup}>
+                <h1>Welcome!</h1>
                 <div>
                     <label for='name'>Name</label>
                     <input id='name' name='name' type='text' ref={nameInputRef} onInput={inputChangeHandler}></input>
                 </div>
                 <div>
                     <label for='password'>Password</label>
-                    <input id="password" name="password" type='text' ref={passwordInputRef} onInput={inputChangeHandler}></input>
+                    <input id="password" name="password" type='password' ref={passwordInputRef} onInput={inputChangeHandler}></input>
                 </div>
-                <button>Sign up</button>
+                <button className={classes.button}>Sign up</button>
                 {nameTaken && <h2 style={{color: '#ff3333'}}>name taken!</h2>}
                 {showError && <h2 style={{color: '#ff3333'}}>Please fill up the blanks</h2>}
+                <NavLink to='/Login'>Have a account? Login instead</NavLink>
             </form>
         </div>
     )

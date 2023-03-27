@@ -1,10 +1,14 @@
-import classes from './Login.modules.css';
-import { useReducer, useRef, useState } from "react";
+import { useReducer, useRef, useState, useContext, useNavigate } from "react";
+import { AuthContext } from "../context/auth-context";
+import classes from "./SignUp.module.css";
+import { NavLink } from "react-router-dom";
+
 
 const Login = () => {
+    const auth = useContext(AuthContext);
     const nameInputRef = useRef();
     const passwordInputRef = useRef();
-    const [nameTaken, setNameTaken] = useState(false);
+    const [wrongCredentials, setWrongCredentials] = useState(false);
     const [showError, setShowError] = useState(false);
 
     const formReducer = (state, action) => {
@@ -33,8 +37,8 @@ const Login = () => {
         e.preventDefault()
         if (formState.formTouched && formState.isValid){
             try {
-                console.log('signing up!')
-                const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/signup`, {
+                console.log('loging in!')
+                const response = await fetch( process.env.REACT_APP_BACKEND_URL + `/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type' : 'application/json'
@@ -44,19 +48,21 @@ const Login = () => {
                         password: passwordInputRef.current.value
                     })
                 });
-                const data = await response.json()
+                const data = await response.json();
+                console.log(data);
                 const token = data.token;
-                localStorage.setItem('token', token)
-                console.log(localStorage.getItem('token'))
-                if (response.status === 403){
-                    setNameTaken(true);
+                const uid = data.user._id;
+                const tokenExpirationDate =  new Date(new Date().getTime() + 1000 * 60 * 60)
+                auth.login(uid, token, tokenExpirationDate)
+                if (response.status === 404){
+                    setWrongCredentials(true);
                 }
-                setShowError(false)
+                setWrongCredentials(false);
             } catch (err) {
-                console.log(err);
+                setWrongCredentials(true);
             }
         } else {
-            setShowError(true)
+            setWrongCredentials(true);
         }
     };
 
@@ -68,19 +74,20 @@ const Login = () => {
 
 
     return(
-        <div className={classes.card}>
+        <div className={classes.container}>
             <form className={classes.form} onSubmit={signup}>
+                <h1>Welcome!</h1>
                 <div>
                     <label for='name'>Name</label>
                     <input id='name' name='name' type='text' ref={nameInputRef} onInput={inputChangeHandler}></input>
                 </div>
                 <div>
                     <label for='password'>Password</label>
-                    <input id="password" name="password" type='text' ref={passwordInputRef} onInput={inputChangeHandler}></input>
+                    <input id="password" name="password" type='password' ref={passwordInputRef} onInput={inputChangeHandler}></input>
                 </div>
-                <button>Sign up</button>
-                {nameTaken && <h2 style={{color: '#ff3333'}}>name taken!</h2>}
-                {showError && <h2 style={{color: '#ff3333'}}>Please fill up the blanks</h2>}
+                <button className={classes.button}>Login</button>
+                {wrongCredentials && <h2 style={{color: '#ff3333'}}>Wrong Username/Password!</h2>}
+                <NavLink to='/SignUp'>Dont a account? Sign up instead</NavLink>
             </form>
         </div>
     )
