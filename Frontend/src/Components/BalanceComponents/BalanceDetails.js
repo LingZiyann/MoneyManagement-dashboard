@@ -1,13 +1,14 @@
-import classes from './PlannerDetails.module.css';
-import NewFormModal from '../Forms/ModalForm/NewFormModal';
-import NewForm from '../Forms/AddNewForm/NewForm';
-import { Fragment, useState, useEffect } from 'react';
+import classes from './BalanceDetails.module.css'
+import NewFormModal from '../../Forms/ModalForm/NewFormModal';
+import { Fragment, useState, useEffect, useLayoutEffect, useRef } from 'react';
+import NewForm from '../../Forms/AddNewForm/NewForm';
 
 
-const PlannerDetails = (props) => {
+const BalanceDetails = (props) => {
     const [ModalOpen, setModalOpen] = useState(false);
     const [formList, setFormList] = useState([]);
     const [removeFormId, setRemoveFormId] = useState('');
+    const [myLocalStorage, setMyLocalStorage] = useState(JSON.parse(localStorage.getItem('balance')))
     const token = localStorage.getItem('token')
     const uid = localStorage.getItem('userId')
 
@@ -17,17 +18,12 @@ const PlannerDetails = (props) => {
     const CloseModal = () => {
         setModalOpen(false);
     };
-
     const deleteForm = (e) => {
         setRemoveFormId(e.currentTarget.id);
     };
 
-    useEffect(() => {
-        deleteDataHandler();
-    },[removeFormId])
-
-    async function getDataHandler () {
-        const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${uid}/planner`, {
+    const getDataHandler = async function () {
+        const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${uid}/balance`, {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json',
@@ -57,13 +53,14 @@ const PlannerDetails = (props) => {
             
         };
         setFormList(transactionsList);
-        
+        localStorage.setItem('balance', JSON.stringify(transactionsList))
+        setMyLocalStorage(JSON.parse(localStorage.getItem('balance')))
     };
 
 
-    async function addDataHandler (data) {
+    const addDataHandler =  async function (data) {
         try{
-            const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form`, {
+            const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type' : 'application/json',
@@ -77,7 +74,7 @@ const PlannerDetails = (props) => {
         getDataHandler();
     };
 
-    async function deleteDataHandler (data) {
+    const deleteDataHandler =  async function (data) {
         if (removeFormId === ''){
             return
         }
@@ -93,25 +90,27 @@ const PlannerDetails = (props) => {
     };
 
     useEffect(() => {
+        deleteDataHandler();
+    }, [removeFormId])
+
+    useEffect(() => {
         getDataHandler();
-    },[])
+    }, [])
 
 
-
-    const FormList = formList.map((form) => {
-        return (
+    let FormList = myLocalStorage? myLocalStorage.map((form) => (
         <NewForm
             key={form.id}
             buttonId={form.id}
             date={form.date}
-            number={formList.indexOf(form) + 1}
+            number={myLocalStorage.indexOf(form) + 1}
             activityName={form.activityName}
             amountSpent={'$' + form.amountSpent}
             radioData={form.radioData}
             deleteForm={deleteForm}
+        
         />
-        )
-    })
+    )) : null ;
 
     return(
         <Fragment>
@@ -128,14 +127,14 @@ const PlannerDetails = (props) => {
                             <th>Category</th>   
                             <th>Delete</th>
                         </tr>
-                    </tbody>    
-                    {FormList}
+                    </tbody>  
+                    {FormList}  
                 </table>   
                 
-                {ModalOpen ? (<NewFormModal CloseModal={CloseModal} submitData={addDataHandler} getData={getDataHandler} radioDataNeeded={false} category={"planner"}/>) : null}
+                {ModalOpen ? (<NewFormModal CloseModal={CloseModal} submitData={addDataHandler} getData={getDataHandler} radioDataNeeded={false} category={"balance"}/>) : null}
             </div>
         </Fragment>
     );
 };
 
-export default PlannerDetails;
+export default BalanceDetails;

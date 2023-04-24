@@ -93,276 +93,276 @@ const MyResponsiveBar = (props) => {
                 const date = new Date(myData[key].date)
                 const month = date.getMonth() + 1
                 const dataType = myData[key].radioData
-                if (month == 1){
-                    if (dataType == 'Food'){
+                if (month === 1){
+                    if (dataType === 'Food'){
                         setJanData(janData => ({
                             ...janData,
                             food: parseInt(janData.food) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Personal'){
+                    } else if (dataType === 'Personal'){
                         setJanData(janData => ({
                             ...janData,
                             personal: parseInt(janData.personal) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Investment'){
+                    } else if (dataType === 'Investment'){
                         setJanData(janData => ({
                             ...janData,
                             investment: parseInt(janData.investment) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Utilities'){
+                    } else if (dataType === 'Utilities'){
                         setJanData(janData => ({
                             ...janData,
                             utilities: parseInt(janData.utilities) + parseInt(myData[key].amountSpent)
                         }));
                     };
                 } 
-                else if (month == 2){
-                    if (dataType == 'Food'){
+                else if (month === 2){
+                    if (dataType === 'Food'){
                         setFebData(febData => ({
                             ...febData,
                             food: parseInt(febData.food) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Personal'){
+                    } else if (dataType === 'Personal'){
                         setFebData(febData => ({
                             ...febData,
                             personal: parseInt(febData.personal) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Investment'){
+                    } else if (dataType === 'Investment'){
                         setFebData(febData => ({
                             ...febData,
                             investment: parseInt(febData.investment) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Utilities'){
+                    } else if (dataType === 'Utilities'){
                         setFebData(febData => ({
                             ...febData,
                             utilities: parseInt(febData.utilities) + parseInt(myData[key].amountSpent)
                         }));
                     };
                 }
-                else if (month == 3){
-                    if (dataType == 'Food'){
+                else if (month === 3){
+                    if (dataType === 'Food'){
                         setMarData(marData => ({
                             ...marData,
                             food: parseInt(marData.food) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Personal'){
+                    } else if (dataType === 'Personal'){
                         setMarData(marData => ({
                             ...marData,
                             personal: parseInt(marData.personal) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Investment'){
+                    } else if (dataType === 'Investment'){
                         setMarData(marData => ({
                             ...marData,
                             investment: parseInt(marData.investment) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Utilities'){
+                    } else if (dataType === 'Utilities'){
                         setMarData(marData => ({
                             ...marData,
                             utilities: parseInt(marData.utilities) + parseInt(myData[key].amountSpent)
                         }));
                     };
                 }
-                else if (month == 4){
-                    if (dataType == 'Food'){
+                else if (month === 4){
+                    if (dataType === 'Food'){
                         setAprData(aprData => ({
                             ...aprData,
                             food: parseInt(aprData.food) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Personal'){
+                    } else if (dataType === 'Personal'){
                         setAprData(aprData => ({
                             ...aprData,
                             personal: parseInt(aprData.personal) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Investment'){
+                    } else if (dataType === 'Investment'){
                         setAprData(aprData => ({
                             ...aprData,
                             investment: parseInt(aprData.investment) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Utilities'){
+                    } else if (dataType === 'Utilities'){
                         setAprData(aprData => ({
                             ...aprData,
                             utilities: parseInt(aprData.utilities) + parseInt(myData[key].amountSpent)
                         }));
                     };
                 }
-                else if (month == 5){
-                    if (dataType == 'Food'){
+                else if (month === 5){
+                    if (dataType === 'Food'){
                         setMayData(mayData => ({
                             ...mayData,
                             food: parseInt(mayData.food) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Personal'){
+                    } else if (dataType === 'Personal'){
                         setMayData(mayData => ({
                             ...mayData,
                             personal: parseInt(mayData.personal) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Investment'){
+                    } else if (dataType === 'Investment'){
                         setMayData(mayData => ({
                             ...mayData,
                             investment: parseInt(mayData.investment) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Utilities'){
+                    } else if (dataType === 'Utilities'){
                         setMayData(mayData => ({
                             ...mayData,
                             utilities: parseInt(mayData.utilities) + parseInt(myData[key].amountSpent)
                         }));
                     };
                 }
-                else if (month == 6){
-                    if (dataType == 'Food'){
+                else if (month === 6){
+                    if (dataType === 'Food'){
                         setJuneData(juneData => ({
                             ...juneData,
                             food: parseInt(juneData.food) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Personal'){
+                    } else if (dataType === 'Personal'){
                         setJuneData(juneData => ({
                             ...juneData,
                             personal: parseInt(juneData.personal) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Investment'){
+                    } else if (dataType === 'Investment'){
                         setJuneData(juneData => ({
                             ...juneData,
                             investment: parseInt(juneData.investment) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Utilities'){
+                    } else if (dataType === 'Utilities'){
                         setJuneData(juneData => ({
                             ...juneData,
                             utilities: parseInt(juneData.utilities) + parseInt(myData[key].amountSpent)
                         }));
                     };
                 }
-                else if (month == 7){
-                    if (dataType == 'Food'){
+                else if (month === 7){
+                    if (dataType === 'Food'){
                         setJulyData(julyData => ({
                             ...julyData,
                             food: parseInt(julyData.food) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Personal'){
+                    } else if (dataType === 'Personal'){
                         setJulyData(julyData => ({
                             ...julyData,
                             personal: parseInt(julyData.personal) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Investment'){
+                    } else if (dataType === 'Investment'){
                         setJulyData(julyData => ({
                             ...julyData,
                             investment: parseInt(julyData.investment) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Utilities'){
+                    } else if (dataType === 'Utilities'){
                         setJulyData(julyData => ({
                             ...julyData,
                             utilities: parseInt(julyData.utilities) + parseInt(myData[key].amountSpent)
                         }));
                     };
                 }
-                else if (month == 8){
-                    if (dataType == 'Food'){
+                else if (month === 8){
+                    if (dataType === 'Food'){
                         setAugData(augData => ({
                             ...augData,
                             food: parseInt(augData.food) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Personal'){
+                    } else if (dataType === 'Personal'){
                         setAugData(augData => ({
                             ...augData,
                             personal: parseInt(augData.personal) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Investment'){
+                    } else if (dataType === 'Investment'){
                         setAugData(augData => ({
                             ...augData,
                             investment: parseInt(augData.investment) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Utilities'){
+                    } else if (dataType === 'Utilities'){
                         setAugData(augData => ({
                             ...augData,
                             utilities: parseInt(augData.utilities) + parseInt(myData[key].amountSpent)
                         }));
                     };
                 }
-                else if (month == 9){
-                    if (dataType == 'Food'){
+                else if (month === 9){
+                    if (dataType === 'Food'){
                         setSepData(sepData => ({
                             ...sepData,
                             food: parseInt(sepData.food) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Personal'){
+                    } else if (dataType === 'Personal'){
                         setSepData(sepData => ({
                             ...sepData,
                             personal: parseInt(sepData.personal) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Investment'){
+                    } else if (dataType === 'Investment'){
                         setSepData(sepData => ({
                             ...sepData,
                             investment: parseInt(sepData.investment) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Utilities'){
+                    } else if (dataType === 'Utilities'){
                         setSepData(sepData => ({
                             ...sepData,
                             utilities: parseInt(sepData.utilities) + parseInt(myData[key].amountSpent)
                         }));
                     };
                 }
-                else if (month == 10){
-                    if (dataType == 'Food'){
+                else if (month === 10){
+                    if (dataType === 'Food'){
                         setOctData(octData => ({
                             ...octData,
                             food: parseInt(octData.food) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Personal'){
+                    } else if (dataType === 'Personal'){
                         setOctData(octData => ({
                             ...octData,
                             personal: parseInt(octData.personal) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Investment'){
+                    } else if (dataType === 'Investment'){
                         setOctData(octData => ({
                             ...octData,
                             investment: parseInt(octData.investment) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Utilities'){
+                    } else if (dataType === 'Utilities'){
                         setOctData(octData => ({
                             ...octData,
                             utilities: parseInt(octData.utilities) + parseInt(myData[key].amountSpent)
                         }));
                     };
                 }
-                else if (month == 11){
-                    if (dataType == 'Food'){
+                else if (month === 11){
+                    if (dataType === 'Food'){
                         setNovData(novData => ({
                             ...novData,
                             food: parseInt(novData.food) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Personal'){
+                    } else if (dataType === 'Personal'){
                         setNovData(novData => ({
                             ...novData,
                             personal: parseInt(novData.personal) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Investment'){
+                    } else if (dataType === 'Investment'){
                         setNovData(novData => ({
                             ...novData,
                             investment: parseInt(novData.investment) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Utilities'){
+                    } else if (dataType === 'Utilities'){
                         setNovData(novData => ({
                             ...novData,
                             utilities: parseInt(novData.utilities) + parseInt(myData[key].amountSpent)
                         }));
                     };
                 }
-                else if (month == 12){
-                    if (dataType == 'Food'){
+                else if (month === 12){
+                    if (dataType === 'Food'){
                         setDecData(decData => ({
                             ...decData,
                             food: parseInt(decData.food) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Personal'){
+                    } else if (dataType === 'Personal'){
                         setDecData(decData => ({
                             ...decData,
                             personal: parseInt(decData.personal) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Investment'){
+                    } else if (dataType === 'Investment'){
                         setDecData(decData => ({
                             ...decData,
                             investment: parseInt(decData.investment) + parseInt(myData[key].amountSpent)
                         }));
-                    } else if (dataType == 'Utilities'){
+                    } else if (dataType === 'Utilities'){
                         setDecData(decData => ({
                             ...decData,
                             utilities: parseInt(decData.utilities) + parseInt(myData[key].amountSpent)

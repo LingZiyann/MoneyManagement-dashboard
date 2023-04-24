@@ -6,9 +6,8 @@ import { getAuthToken } from '../../utils/auth';
 
 const TransactionsDetails = (props) => {
     const [ModalOpen, setModalOpen] = useState(false);
-    const [formList, setFormList] = useState([]);
     const [removeFormId, setRemoveFormId] = useState('');
-    const [isLoading, setIsLoading] = useState(true);
+    const [myLocalStorage, setMyLocalStorage] = useState(JSON.parse(localStorage.getItem('transactions')))
     const token = localStorage.getItem('token');
     const uid = localStorage.getItem('userId')
 
@@ -22,7 +21,6 @@ const TransactionsDetails = (props) => {
         setRemoveFormId(e.currentTarget.id);
     };
     
-
     async function getDataHandler () {
         const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${uid}/transactions`, {
             method: 'GET',
@@ -50,12 +48,13 @@ const TransactionsDetails = (props) => {
                 activityName: myData[key].activityName,
                 amountSpent: myData[key].amountSpent,
                 })
-            }
-            
+            }    
         };
-        setFormList(transactionsList);
-        
+        localStorage.setItem('transactions', JSON.stringify(transactionsList))
+        setMyLocalStorage(JSON.parse(localStorage.getItem('transactions')))
     };
+
+    
 
     async function addDataHandler (data) {
         try{
@@ -96,20 +95,20 @@ const TransactionsDetails = (props) => {
         deleteDataHandler();
     },[removeFormId])
 
-    const FormList = formList.map((form) => {
+    const FormList = myLocalStorage? myLocalStorage.map((form) => {
         return (
         <NewForm
             key={form.id}
             buttonId={form.id}
             date={form.date}
-            number={formList.indexOf(form) + 1}
+            number={myLocalStorage.indexOf(form) + 1}
             activityName={form.activityName}
             amountSpent={'$' + form.amountSpent}
             radioData={form.radioData}
             deleteForm={deleteForm}
         />
         );
-        });
+    }) : null ;
 
     
     return(

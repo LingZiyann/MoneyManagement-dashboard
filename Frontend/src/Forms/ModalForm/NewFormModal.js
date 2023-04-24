@@ -20,7 +20,6 @@ const NewFormModal = (props) => {
                     radioData: radioDataInput,
                     category: props.category
                     };
-                    console.log(data);
                     props.submitData(data);
                     props.CloseModal();
                 };
@@ -43,7 +42,6 @@ const NewFormModal = (props) => {
             const data = e.target.value;
             setRadioDataInput(data)
             if (radioDataInput !== ''){
-                console.log(radioDataEntered)
                 setRadioDataEntered(true);
             } else if (radioDataInput === '' && radioDataMandatory === false){
                 setRadioDataEntered(true);

@@ -1,7 +1,7 @@
 import classes from './Home.module.css';
-import Row1 from '../../HomeComponents/Row1/Row1';
-import Row2 from '../../HomeComponents/Row2/Row2';
-import Row3 from '../../HomeComponents/Row3/Row3';
+import Row1 from '../../Components/HomeComponents/Row1/Row1'
+import Row2 from '../../Components/HomeComponents/Row2/Row2'
+import Row3 from '../../Components/HomeComponents/Row3/Row3'
 import { useState, useEffect } from 'react';
 
 
