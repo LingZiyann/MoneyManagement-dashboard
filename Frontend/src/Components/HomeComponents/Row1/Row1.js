@@ -1,10 +1,10 @@
 import classes from './Row1.module.css'
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 const Row1 = () => {
-    const [totalAmountSpent,setTotalAmountSpent] = useState(0);
-    const [totalBalance, setTotalBalance] = useState(0);
-    const [totalMoneyNeeded, setTotalMoneyNeeded] = useState(0);
+    const [myLocalTransactions, setLocalTransactions] = useState(localStorage.getItem('transactionsValue') || 0);
+    const [myLocalBalance, setLocalBalance] = useState(localStorage.getItem('balanceValue') || 0);
+    const [myLocalPlanner, setLocalPlanner] = useState(localStorage.getItem('plannerValue') || 0);
     const token = localStorage.getItem('token');
     const uid = localStorage.getItem('userId');
 
@@ -33,15 +33,25 @@ const Row1 = () => {
         const myData1 = await response1.json();
         const myData2 = await response2.json();
         const myData3 = await response3.json();
+        let totalAmountSpent = 0
+        let totalBalance = 0
+        let totalMoneyNeeded = 0
         for (const key in myData1){
-            setTotalAmountSpent(prev => parseInt(prev) + parseInt(myData1[key].amountSpent))
+            totalAmountSpent += parseInt(myData1[key].amountSpent)
         };
         for (const key in myData2){
-            setTotalBalance(prev => parseInt(prev) + parseInt(myData2[key].amountSpent))
+            totalBalance += parseInt(myData2[key].amountSpent)
         };
         for (const key in myData3){
-            setTotalMoneyNeeded(prev => parseInt(prev) + parseInt(myData3[key].amountSpent))
+            totalMoneyNeeded += parseInt(myData3[key].amountSpent)
         };
+        console.log(totalAmountSpent, totalBalance, totalMoneyNeeded)
+        localStorage.setItem('transactionsValue', totalAmountSpent)
+        setLocalTransactions(localStorage.getItem('transactionsValue'))
+        localStorage.setItem('balanceValue', totalBalance)
+        setLocalBalance(localStorage.getItem('balanceValue'))
+        localStorage.setItem('plannerValue', totalMoneyNeeded)
+        setLocalPlanner(localStorage.getItem('plannerValue'))
     };
 
     useEffect(() => {
@@ -54,15 +64,15 @@ const Row1 = () => {
             <div className={classes.container}>
                 <div className={classes.balance}>
                     <p>Account Balance</p>
-                    <span>{'$' + totalBalance}</span>
+                    <span>{'$' + myLocalBalance}</span>
                 </div>
                 <div className={classes.expenditure}>
                     <p>Money Spent:</p>
-                    <span>{'$' + totalAmountSpent}</span>
+                    <span>{'$' + myLocalTransactions}</span>
                 </div>
                 <div className={classes.needed}>
                     <p>Money Needed:</p>
-                    <span>{'$' + totalMoneyNeeded}</span>
+                    <span>{'$' + myLocalPlanner}</span>
                 </div>
             </div>
     );

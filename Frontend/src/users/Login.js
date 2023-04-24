@@ -49,7 +49,6 @@ const Login = () => {
                     })
                 });
                 const data = await response.json();
-                console.log(data);
                 const token = data.token;
                 const uid = data.user._id;
                 const tokenExpirationDate =  new Date(new Date().getTime() + 1000 * 60 * 60)

@@ -1,5 +1,5 @@
 import classes from './Transactions.module.css'
-import TransactionsDetails from '../../AccountComponents/TransactionsDetails/TransactionsDetails';
+import TransactionsDetails from '../../Components/TransactionsDetails/TransactionsDetails'
 
 const Transactions = () => {
 

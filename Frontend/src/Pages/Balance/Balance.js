@@ -1,4 +1,4 @@
-import BalanceDetails from '../../BalanceComponents/BalanceDetails';
+import BalanceDetails from '../../Components/BalanceComponents/BalanceDetails'
 import classes from './Balance.module.css'
 
 const Balance = () => {

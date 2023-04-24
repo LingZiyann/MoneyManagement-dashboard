@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import { Routes, Route, useNavigate, BrowserRouter } from "react-router-dom";
 import './App.css';
 import Home from './Pages/Home/Home';
-import MySidebar from './Sidebar/Sidebar';
+import MySidebar from './Components/Sidebar/Sidebar'
 import Transactions from './Pages/Transactions/Transactions';
 import Balance from './Pages/Balance/Balance';
 import Planner from './Pages/Planner/Planner';
@@ -27,7 +27,7 @@ function App() {
     localStorage.setItem('userId', uid);
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', tokenExpirationDate);
-    console.log('asd')
+
   }, []);
 
   const logout = useCallback(() => {

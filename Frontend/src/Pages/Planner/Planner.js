@@ -1,5 +1,5 @@
 import classes from './Planner.module.css';
-import PlannerDetails from '../../PlannerComponent/PlannerDetails';
+import PlannerDetails from '../../Components/PlannerComponent/PlannerDetails'
 
 const Planner = () => {
     return(

@@ -1,14 +1,14 @@
-import classes from './BalanceDetails.module.css'
-import NewFormModal from '../Forms/ModalForm/NewFormModal';
-import { Fragment, useState, useEffect, useLayoutEffect, useRef } from 'react';
-import NewForm from '../Forms/AddNewForm/NewForm';
+import classes from './PlannerDetails.module.css';
+import NewFormModal from '../../Forms/ModalForm/NewFormModal';
+import NewForm from '../../Forms/AddNewForm/NewForm';
+import { Fragment, useState, useEffect } from 'react';
 
 
-const BalanceDetails = (props) => {
+const PlannerDetails = (props) => {
     const [ModalOpen, setModalOpen] = useState(false);
     const [formList, setFormList] = useState([]);
     const [removeFormId, setRemoveFormId] = useState('');
-    const effectRan = useRef(false);
+    const [myLocalStorage, setMyLocalStorage] = useState(JSON.parse(localStorage.getItem('planner')))
     const token = localStorage.getItem('token')
     const uid = localStorage.getItem('userId')
 
@@ -18,12 +18,17 @@ const BalanceDetails = (props) => {
     const CloseModal = () => {
         setModalOpen(false);
     };
+
     const deleteForm = (e) => {
         setRemoveFormId(e.currentTarget.id);
     };
 
-    const getDataHandler = async function () {
-        const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${uid}/balance`, {
+    useEffect(() => {
+        deleteDataHandler();
+    },[removeFormId])
+
+    async function getDataHandler () {
+        const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${uid}/planner`, {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json',
@@ -53,15 +58,15 @@ const BalanceDetails = (props) => {
             
         };
         setFormList(transactionsList);
-        console.log('get')
-        localStorage.setItem('formData', JSON.stringify(formList));
+        localStorage.setItem('planner', JSON.stringify(transactionsList))
+        setMyLocalStorage(JSON.parse(localStorage.getItem('planner')))
         
     };
 
 
-    const addDataHandler =  async function (data) {
+    async function addDataHandler (data) {
         try{
-            const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/`, {
+            const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form`, {
                 method: 'POST',
                 headers: {
                     'Content-Type' : 'application/json',
@@ -72,11 +77,10 @@ const BalanceDetails = (props) => {
         } catch (e) {
             console.log(e);
         }
-        console.log('add')
         getDataHandler();
     };
 
-    const deleteDataHandler =  async function (data) {
+    async function deleteDataHandler (data) {
         if (removeFormId === ''){
             return
         }
@@ -92,46 +96,25 @@ const BalanceDetails = (props) => {
     };
 
     useEffect(() => {
-        deleteDataHandler();
-    }, [removeFormId])
-
-    useEffect(() => {
         getDataHandler();
-    }, [])
-
-    // useEffect(() => {
-    //     if (effectRan.current === false){
-    //         deleteDataHandler();
-    //         console.log("run")
-    //         effectRan.current = true;
-    //     }
-    // },[removeFormId])
-
-    // useEffect(() => {
-    //     localStorage.setItem('formData', JSON.stringify(formList));
-    // }, [formList])
-
-    // useEffect(() => {
-    //     const data = localStorage.getItem('formData');
-    //     setFormList(JSON.parse(data));
-    // }, [])
+    },[])
 
 
 
-    let FormList = formList.map((form) => (
+    const FormList = myLocalStorage? myLocalStorage.map((form) => {
+        return (
         <NewForm
             key={form.id}
             buttonId={form.id}
             date={form.date}
-            number={formList.indexOf(form) + 1}
+            number={myLocalStorage.indexOf(form) + 1}
             activityName={form.activityName}
             amountSpent={'$' + form.amountSpent}
             radioData={form.radioData}
             deleteForm={deleteForm}
-        
         />
-    ));
-
+        )
+    }) : null ;
 
     return(
         <Fragment>
@@ -148,14 +131,14 @@ const BalanceDetails = (props) => {
                             <th>Category</th>   
                             <th>Delete</th>
                         </tr>
-                    </tbody>  
-                    {FormList}  
+                    </tbody>    
+                    {FormList}
                 </table>   
                 
-                {ModalOpen ? (<NewFormModal CloseModal={CloseModal} submitData={addDataHandler} getData={getDataHandler} radioDataNeeded={false} category={"balance"}/>) : null}
+                {ModalOpen ? (<NewFormModal CloseModal={CloseModal} submitData={addDataHandler} getData={getDataHandler} radioDataNeeded={false} category={"planner"}/>) : null}
             </div>
         </Fragment>
     );
 };
 
-export default BalanceDetails;
+export default PlannerDetails;
