@@ -1,7 +1,9 @@
 import { useReducer, useRef, useState, useContext, useNavigate } from "react";
 import { AuthContext } from "../context/auth-context";
-import classes from "./SignUp.module.css";
+import classes from "./Login.module.css";
 import { NavLink } from "react-router-dom";
+import ClipLoader from "react-spinners/ClipLoader";
+
 
 
 const Login = () => {
@@ -10,6 +12,7 @@ const Login = () => {
     const passwordInputRef = useRef();
     const [wrongCredentials, setWrongCredentials] = useState(false);
     const [showError, setShowError] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const formReducer = (state, action) => {
         switch(action.type){
@@ -25,6 +28,8 @@ const Login = () => {
                     isValid: false,
                     };
                 }
+            default:
+                return state;
             };
         };
 
@@ -34,7 +39,8 @@ const Login = () => {
     });
 
     const signup = async function (e) {
-        e.preventDefault()
+        e.preventDefault();
+        setIsLoading(true);
         if (formState.formTouched && formState.isValid){
             try {
                 console.log('loging in!')
@@ -57,11 +63,14 @@ const Login = () => {
                     setWrongCredentials(true);
                 }
                 setWrongCredentials(false);
+                setIsLoading(false);
             } catch (err) {
                 setWrongCredentials(true);
+                setIsLoading(false);
             }
         } else {
             setWrongCredentials(true);
+            setIsLoading(false);
         }
     };
 
@@ -70,24 +79,32 @@ const Login = () => {
             type: 'Input_Change'
         });
     };
-
+    const imageUrl = process.env.PUBLIC_URL + '/2023-10-15.png'
 
     return(
         <div className={classes.container}>
-            <form className={classes.form} onSubmit={signup}>
-                <h1>Welcome!</h1>
-                <div>
-                    <label for='name'>Name</label>
-                    <input id='name' name='name' type='text' ref={nameInputRef} onInput={inputChangeHandler}></input>
-                </div>
-                <div>
-                    <label for='password'>Password</label>
-                    <input id="password" name="password" type='password' ref={passwordInputRef} onInput={inputChangeHandler}></input>
-                </div>
-                <button className={classes.button}>Login</button>
-                {wrongCredentials && <h2 style={{color: '#ff3333'}}>Wrong Username/Password!</h2>}
-                <NavLink to='/SignUp'>Dont a account? Sign up instead</NavLink>
-            </form>
+            <div className={classes.navbar}>
+                <h1>MoneyManagement</h1>
+            </div>
+            <main className={classes.content}>
+                <form className={classes.form} onSubmit={signup}>
+                    <h1>Welcome!</h1>
+                    <div>
+                        <label for='name'>Name</label>
+                        <input id='name' name='name' type='text' ref={nameInputRef} onInput={inputChangeHandler}></input>
+                    </div>
+                    <div>
+                        <label for='password'>Password</label>
+                        <input id="password" name="password" type='password' ref={passwordInputRef} onInput={inputChangeHandler}></input>
+                    </div>
+                    <button className={classes.button}>Login</button>
+                    {isLoading && <ClipLoader color={"#123abc"} loading={isLoading} size={50} />}
+                    {wrongCredentials && <h2 style={{color: '#ff3333'}}>Wrong Username/Password!</h2>}
+                    <NavLink to='/SignUp'>Dont a account? Sign up instead</NavLink>
+                </form>
+                <img src={imageUrl} alt="demoImage"></img>
+            </main>
+
         </div>
     )
 }
