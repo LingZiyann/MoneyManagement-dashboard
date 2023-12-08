@@ -2,11 +2,11 @@ import classes from './Row1.module.css'
 import { useState, useEffect } from 'react';
 
 const Row1 = () => {
-    const [myLocalTransactions, setLocalTransactions] = useState(localStorage.getItem('transactionsValue') || 0);
-    const [myLocalBalance, setLocalBalance] = useState(localStorage.getItem('balanceValue') || 0);
-    const [myLocalPlanner, setLocalPlanner] = useState(localStorage.getItem('plannerValue') || 0);
-    const token = localStorage.getItem('token');
-    const uid = localStorage.getItem('userId');
+    const [myLocalTransactions, setLocalTransactions] = useState<string|null>(localStorage.getItem('transactionsValue') || "0");
+    const [myLocalBalance, setLocalBalance] = useState<string|null>(localStorage.getItem('balanceValue') || "0");
+    const [myLocalPlanner, setLocalPlanner] = useState<string|null>(localStorage.getItem('plannerValue') || "0");
+    const token: string | null = localStorage.getItem('token');
+    const uid: string | null = localStorage.getItem('userId');
 
     async function getDataHandler () {
         const response1 = await fetch(process.env.REACT_APP_BACKEND_URL +`/form/${uid}/transactions`,{
@@ -46,11 +46,11 @@ const Row1 = () => {
             totalMoneyNeeded += parseInt(myData3[key].amountSpent)
         };
         console.log(totalAmountSpent, totalBalance, totalMoneyNeeded)
-        localStorage.setItem('transactionsValue', totalAmountSpent)
+        localStorage.setItem('transactionsValue', totalAmountSpent.toString())
         setLocalTransactions(localStorage.getItem('transactionsValue'))
-        localStorage.setItem('balanceValue', totalBalance)
+        localStorage.setItem('balanceValue', totalBalance.toString())
         setLocalBalance(localStorage.getItem('balanceValue'))
-        localStorage.setItem('plannerValue', totalMoneyNeeded)
+        localStorage.setItem('plannerValue', totalMoneyNeeded.toString())
         setLocalPlanner(localStorage.getItem('plannerValue'))
     };
 

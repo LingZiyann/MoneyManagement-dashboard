@@ -2,12 +2,12 @@ import { ResponsivePie } from '@nivo/pie'
 import { useState, useEffect } from 'react';
 
 const MyPiechart = () => {
-    const [investmentAmount, setInvestmentAmount] = useState(0);
-    const [utilitiesAmount, setUtilitiesAmount] = useState(0);
-    const [personalAmount, setPersonalAmount] = useState(0);
-    const [foodAmount, setFoodAmount] = useState(0);
-    const token = localStorage.getItem('token');
-    const uid = localStorage.getItem('userId')
+    const [investmentAmount, setInvestmentAmount] = useState<number>(0);
+    const [utilitiesAmount, setUtilitiesAmount] = useState<number>(0);
+    const [personalAmount, setPersonalAmount] = useState<number>(0);
+    const [foodAmount, setFoodAmount] = useState<number>(0);
+    const token: string|null = localStorage.getItem('token');
+    const uid: string|null = localStorage.getItem('userId');
 
     async function getDataHandler () {
         const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${uid}/transactions`, {
@@ -21,17 +21,16 @@ const MyPiechart = () => {
         for (const key in myData){
             if (myData[key].date !== null) {
                 if (myData[key].radioData === "Investment"){
-                    
-                    setInvestmentAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent));                
+                    setInvestmentAmount(prev => prev + parseInt(myData[key].amountSpent));                
                 } else if (myData[key].radioData === "Food"){
                     
-                    setFoodAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent)); 
+                    setFoodAmount(prev => prev + parseInt(myData[key].amountSpent)); 
                 } else if (myData[key].radioData === "Utilities"){
                     
-                    setUtilitiesAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent)); 
+                    setUtilitiesAmount(prev => prev + parseInt(myData[key].amountSpent)); 
                 }else if (myData[key].radioData === "Personal"){
                     
-                    setPersonalAmount(prev => parseInt(prev) + parseInt(myData[key].amountSpent)); 
+                    setPersonalAmount(prev => prev + parseInt(myData[key].amountSpent)); 
                 }
                 };
             }

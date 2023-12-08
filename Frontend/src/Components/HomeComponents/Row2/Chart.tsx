@@ -2,19 +2,23 @@ import { ResponsiveLine } from '@nivo/line'
 import { useEffect, useState, useRef } from 'react';
 import classes from './Chart.module.css';
 
-const MyResponsiveLine = (props) =>{
-  const [janSpendings, setJanSpendings] = useState(0);
-  const [febSpendings, setFebSpendings] = useState(0);
-  const [marSpendings, setMarSpendings] = useState(0);
-  const [aprSpendings, setAprSpendings] = useState(0);
-  const [maySpendings, setMaySpendings] = useState(0);
-  const [juneSpendings, setJuneSpendings] = useState(0);
-  const [julyspendings, setJulySpendings] = useState(0);
-  const [augSpendings, setAugSpendings] = useState(0);
-  const [sepSpendings, setSepSpendings] = useState(0);
-  const [octSpendings, setOctSpendings] = useState(0);
-  const [novSpendings, setNovSpendings] = useState(0);
-  const [decSpendings, setDecSpendings] = useState(0);
+interface lineProps{
+  fontSize: number
+}
+
+const MyResponsiveLine = (props: lineProps) =>{
+  const [janSpendings, setJanSpendings] = useState<number>(0);
+  const [febSpendings, setFebSpendings] = useState<number>(0);
+  const [marSpendings, setMarSpendings] = useState<number>(0);
+  const [aprSpendings, setAprSpendings] = useState<number>(0);
+  const [maySpendings, setMaySpendings] = useState<number>(0);
+  const [juneSpendings, setJuneSpendings] = useState<number>(0);
+  const [julyspendings, setJulySpendings] = useState<number>(0);
+  const [augSpendings, setAugSpendings] = useState<number>(0);
+  const [sepSpendings, setSepSpendings] = useState<number>(0);
+  const [octSpendings, setOctSpendings] = useState<number>(0);
+  const [novSpendings, setNovSpendings] = useState<number>(0);
+  const [decSpendings, setDecSpendings] = useState<number>(0);
   const token = localStorage.getItem('token');
   const uid = localStorage.getItem('userId')
 
@@ -33,40 +37,40 @@ const MyResponsiveLine = (props) =>{
         const month = date.getMonth() + 1
         switch (month){
           case 1:
-            setJanSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            setJanSpendings(prev => prev + parseInt(myData[key].amountSpent))
             break;
           case 2:
-            setFebSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            setFebSpendings(prev => prev + parseInt(myData[key].amountSpent))
             break;
           case 3:
-            setMarSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            setMarSpendings(prev => prev + parseInt(myData[key].amountSpent))
             break;   
           case 4:
-            setAprSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            setAprSpendings(prev => prev + parseInt(myData[key].amountSpent))
             break;
           case 5:
-            setMaySpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            setMaySpendings(prev => prev + parseInt(myData[key].amountSpent))
             break;
           case 6:
-            setJuneSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            setJuneSpendings(prev => prev + parseInt(myData[key].amountSpent))
             break;
           case 7:
-            setJulySpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            setJulySpendings(prev => prev + parseInt(myData[key].amountSpent))
             break;
           case 8:
-            setAugSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            setAugSpendings(prev => prev + parseInt(myData[key].amountSpent))
             break;
           case 9:
-            setSepSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            setSepSpendings(prev => prev + parseInt(myData[key].amountSpent))
             break;
           case 10:
-            setOctSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            setOctSpendings(prev => prev + parseInt(myData[key].amountSpent))
             break;
           case 11:
-            setNovSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            setNovSpendings(prev => prev + parseInt(myData[key].amountSpent))
             break;
           case 12:
-            setDecSpendings(prev => parseInt(prev) + parseInt(myData[key].amountSpent))
+            setDecSpendings(prev => prev + parseInt(myData[key].amountSpent))
             break; 
           }
           };
@@ -152,7 +156,7 @@ const MyResponsiveLine = (props) =>{
             axisTop={null}
             axisRight={null}
             axisBottom={{
-                orient: 'bottom',
+                //orient: 'bottom',
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,
@@ -161,7 +165,7 @@ const MyResponsiveLine = (props) =>{
                 legendPosition: 'middle'
             }}
             axisLeft={{
-                orient: 'left',
+                //orient: 'left',
                 tickSize: 5,
                 tickPadding: 5,
                 tickRotation: 0,

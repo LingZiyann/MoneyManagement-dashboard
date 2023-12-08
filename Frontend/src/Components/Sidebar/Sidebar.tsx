@@ -2,10 +2,10 @@ import classes from './Sidebar.module.css'
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const MySidebar = () => {
-    const [sideBarOpen, setSideBarOpen] = useState(false);
+    const [sideBarOpen, setSideBarOpen] = useState<boolean>(false);
     const openSidebar = () => {
         if (sideBarOpen === false) {setSideBarOpen(true)}
         else {setSideBarOpen(false)}

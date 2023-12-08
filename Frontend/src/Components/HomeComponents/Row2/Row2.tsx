@@ -2,7 +2,12 @@ import classes from './Row2.module.css'
 import MyPiechart from './Piechart';
 import MyResponsiveLine from './Chart';
 
-const Row2 = (props) => {
+interface Row2Props {
+  fontSize: number;
+}
+
+
+const Row2 = (props:Row2Props) => {
 
   return(
     <div className={classes.Row2Container}>
