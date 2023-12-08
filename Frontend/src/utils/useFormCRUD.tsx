@@ -1,15 +1,25 @@
-import classes from './TransactionsDetails.module.css'
-import NewFormModal from '../../Forms/ModalForm/NewFormModal';
-import { Fragment, useState, useEffect } from 'react';
-import NewForm from '../../Forms/AddNewForm/NewForm';
-import { getAuthToken } from '../../utils/auth';
+import { useState } from "react";
+import { FormData } from "../types/types";
+import NewForm from '../Forms/AddNewForm/NewForm';
 
-const TransactionsDetails = (props) => {
-    const [ModalOpen, setModalOpen] = useState(false);
-    const [removeFormId, setRemoveFormId] = useState('');
-    const [myLocalStorage, setMyLocalStorage] = useState(JSON.parse(localStorage.getItem('transactions')))
-    const token = localStorage.getItem('token');
-    const uid = localStorage.getItem('userId')
+type FormCrud = {
+    modalOpen: boolean;
+    removeFormId: string;
+    getDataHandler: () => Promise<void>;
+    addDataHandler: (data: FormData) => Promise<void>;
+    deleteDataHandler: (id: string) => Promise<void>;
+    OpenModal: () => void;
+    CloseModal: () => void;
+    FormList: (JSX.Element | null)[] | null
+}
+
+const useFormCRUD = (category: string,): FormCrud => {
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const [removeFormId, setRemoveFormId] = useState<string>('');
+    const [myLocalStorage, setMyLocalStorage] = useState<FormData[]>(localStorage.getItem(category) ? JSON.parse(localStorage.getItem(category)!) : null);
+    const token: string|null = localStorage.getItem('token');
+    const uid: string|null = localStorage.getItem('userId');
+
 
     const OpenModal = () => {
         setModalOpen(true);
@@ -17,12 +27,12 @@ const TransactionsDetails = (props) => {
     const CloseModal = () => {
         setModalOpen(false);
     };
-    const deleteForm = (e) => {
+    const deleteForm = (e: React.MouseEvent<HTMLButtonElement>) => {
         setRemoveFormId(e.currentTarget.id);
     };
-    
-    async function getDataHandler () {
-        const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${uid}/transactions`, {
+
+    const getDataHandler = async function () {
+        const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${uid}/${category}`, {
             method: 'GET',
             headers: {
                 'Content-Type' : 'application/json',
@@ -32,7 +42,7 @@ const TransactionsDetails = (props) => {
         const myData = await response.json();
         const transactionsList = [];
         for (const key in myData){
-            if (myData[key].date){
+            if (myData[key].date !== null){
             transactionsList.push({
                 id: myData[key]._id,
                 date: myData[key].date.slice(0, 10).split('-').reverse().join('-'),
@@ -48,15 +58,15 @@ const TransactionsDetails = (props) => {
                 activityName: myData[key].activityName,
                 amountSpent: myData[key].amountSpent,
                 })
-            }    
+            }
+            
         };
-        localStorage.setItem('transactions', JSON.stringify(transactionsList))
-        setMyLocalStorage(JSON.parse(localStorage.getItem('transactions')))
+        localStorage.setItem(category, JSON.stringify(transactionsList));
+        setMyLocalStorage(JSON.parse(localStorage.getItem(category) ?? 'null'));
     };
 
-    
 
-    async function addDataHandler (data) {
+    const addDataHandler =  async function (data:FormData) {
         try{
             const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/`, {
                 method: 'POST',
@@ -72,7 +82,7 @@ const TransactionsDetails = (props) => {
         getDataHandler();
     };
 
-    async function deleteDataHandler (data) {
+    const deleteDataHandler =  async function (removeFormId: string) {
         if (removeFormId === ''){
             return
         }
@@ -82,20 +92,12 @@ const TransactionsDetails = (props) => {
                 'Content-Type' : 'application/json',
                 'Authorization' : `Bearer ${token}`
             },
-            body: JSON.stringify(data),
+            //body: JSON.stringify(data),
         });
         getDataHandler()
     };
 
-    useEffect(() => {
-        getDataHandler();
-    },[])
-
-    useEffect(() => {
-        deleteDataHandler();
-    },[removeFormId])
-
-    const FormList = myLocalStorage? myLocalStorage.map((form) => {
+    const FormList = myLocalStorage? myLocalStorage.map((form:FormData) => {
         return (
         <NewForm
             key={form.id}
@@ -110,30 +112,18 @@ const TransactionsDetails = (props) => {
         );
     }) : null ;
 
-    
-    return(
-        <Fragment>
-            <div className={classes.container}>
-                <button onClick={OpenModal}>Add new data</button>
-                {/* <p>Filter</p> */}
-                <table>
-                    <tbody>
-                        <tr className={classes.Header}>
-                            <th>Number</th>
-                            <th>Name</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>Category</th>   
-                            <th>Delete</th>
-                        </tr>
-                    </tbody>
-                    {FormList}   
-                </table>    
-                    
-                {ModalOpen ? (<NewFormModal CloseModal={CloseModal} submitData={addDataHandler} getData={getDataHandler} radioDataNeeded={true} category={"transactions"}/>) : null}
-            </div>
-        </Fragment>
-    );
+
+    return{
+        modalOpen,
+        removeFormId,
+        getDataHandler,
+        addDataHandler,
+        deleteDataHandler,
+        OpenModal,
+        CloseModal,
+        FormList,
+    };
+
 };
 
-export default TransactionsDetails;
+export default useFormCRUD;

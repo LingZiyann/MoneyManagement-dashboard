@@ -1,22 +1,32 @@
 import classes from './NewFormModal.module.css';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import React from 'react';
+import { FormData } from '../../types/types';
 
-const NewFormModal = (props) => {
-        const [radioDataInput, setRadioDataInput] = useState();
-        const [isNumber, setIsNumber] = useState(false);
-        const [radioDataEntered, setRadioDataEntered] = useState(false);
-        const [formTouched, setFormTouched] = useState(false);
-        const [radioDataMandatory, setRadioDataMandatory] = useState(props.radioDataNeeded);
-        const activityInputRef = useRef();
-        const amountInputRef = useRef();
-        const dateInputRef = useRef();      
-        const SubmitFormHandler = (e) => {         
+type FormModalProps = {
+    CloseModal: () => void;
+    submitData: (data: any) => Promise<void>;
+    getData: () => Promise<void>;
+    radioDataNeeded: boolean;
+    category: string;
+}
+
+const NewFormModal = (props: FormModalProps) => {
+        const [radioDataInput, setRadioDataInput] = useState<string>('');
+        const [isNumber, setIsNumber] = useState<boolean>(false);
+        const [radioDataEntered, setRadioDataEntered] = useState<boolean>(false);
+        const [formTouched, setFormTouched] = useState<boolean>(false);
+        const [radioDataMandatory, setRadioDataMandatory] = useState<boolean>(props.radioDataNeeded);
+        const activityInputRef = useRef<HTMLInputElement>(null);
+        const amountInputRef = useRef<HTMLInputElement>(null);
+        const dateInputRef = useRef<HTMLInputElement>(null);      
+        const SubmitFormHandler = (e: React.FormEvent<HTMLFormElement>) => {         
             e.preventDefault();   
             if (isNumber === true && formTouched === true && (radioDataEntered === true || radioDataMandatory === false)) {
-                const data = {
-                    activityName: activityInputRef.current.value,
-                    amountSpent: amountInputRef.current.value,
-                    date: dateInputRef.current.value,
+                const data: FormData = {
+                    activityName: activityInputRef.current?.value ?? "",
+                    amountSpent: parseFloat(amountInputRef.current!.value),
+                    date: dateInputRef.current?.value ?? "",
                     radioData: radioDataInput,
                     category: props.category
                     };
@@ -29,21 +39,21 @@ const NewFormModal = (props) => {
             setFormTouched(true);
         }
 
-        const authenticateNumber = (e) => {
-            if (isNaN(amountInputRef.current.value) === false && amountInputRef.current.value !== ''){              
+        const authenticateNumber = () => {
+            const parsedValue = parseFloat(amountInputRef.current?.value ?? '');
+            if (isNaN(parsedValue) === false){              
                 setIsNumber(true);
-               
-            } else if (isNaN(amountInputRef.current.value) === true || amountInputRef.current.value == ''){
+            } else {
                 setIsNumber(false);
             }
-        };
+        }
 
-        const getRadioData = (e) => {
+        const getRadioData = (e: React.ChangeEvent<HTMLInputElement>) => {
             const data = e.target.value;
             setRadioDataInput(data)
-            if (radioDataInput !== ''){
+            if (data !== ''){
                 setRadioDataEntered(true);
-            } else if (radioDataInput === '' && radioDataMandatory === false){
+            } else if (data === '' && radioDataMandatory === false){
                 setRadioDataEntered(true);
             }
         };
@@ -53,26 +63,26 @@ const NewFormModal = (props) => {
                 <div className={classes.form} onClick={(e) => e.stopPropagation()} >
                     <form onSubmit={SubmitFormHandler}>
                         <div>
-                            <label for='activity'>Activity name</label>
+                            <label htmlFor='activity'>Activity name</label>
                             <input className={classes.textInput} type="text" id="activity" name="activity" ref={activityInputRef}></input>
                         </div>
                         <div>
-                            <label for='amount'>Amount spent</label>
+                            <label htmlFor='amount'>Amount spent</label>
                             <input className={classes.textInput} type='text' id='amount' name='amount' ref={amountInputRef} onChange={authenticateNumber}></input>
                         </div>
                         <div>
-                            <label for='date'>Date</label>
+                            <label htmlFor='date'>Date</label>
                             <input type='date' id='date' name='date' ref={dateInputRef}></input>
                         </div>
                         <div className={classes.radio} onChange={getRadioData}>
                             <input type="radio" id="Food" name="category" value="Food"></input>
-                            <label for="Food">Food</label><br></br>
+                            <label htmlFor="Food">Food</label><br></br>
                             <input type="radio" id="Personal" name="category" value="Personal"></input>
-                            <label for="Personal">Personal usage</label><br></br>
+                            <label htmlFor="Personal">Personal usage</label><br></br>
                             <input type="radio" id="Investment" name="category" value="Investment"></input>
-                            <label for="Investment">Investment</label><br></br>
+                            <label htmlFor="Investment">Investment</label><br></br>
                             <input type="radio" id="Utilities" name="category" value="Utilities"></input>
-                            <label for="Utilities">Utilities</label><br></br>
+                            <label htmlFor="Utilities">Utilities</label><br></br>
 
                         </div>
                         <button className={classes.btn} onClick={isFormTouched} type='submit'>Submit</button>
