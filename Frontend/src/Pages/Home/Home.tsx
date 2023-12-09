@@ -6,8 +6,8 @@ import { useState, useEffect } from 'react';
 
 
 const Home = () => {
-    const [fontSize, setFontSize] = useState(11)
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const [fontSize, setFontSize] = useState<number>(11)
+    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
     useEffect(() => {
       const handleWindowResize = () => {
@@ -26,11 +26,11 @@ const Home = () => {
         window.removeEventListener('resize', handleWindowResize);
       };
 
-    });
+    }, [windowWidth]);
 
     return(
         <div className={classes.Homecontainer}>
-            <Row1 className={classes.Row1}/>
+            <Row1 /*className={classes.Row1}*//>
             <Row2 fontSize={fontSize}/>
             <Row3 fontSize={fontSize}/>
         </div>

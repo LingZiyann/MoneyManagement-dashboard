@@ -6,7 +6,7 @@ const Transactions = () => {
 
     return(
         <div className={classes.container}>
-            <TransactionsDetails className={classes.AccountDetails}></TransactionsDetails>
+            <TransactionsDetails /*className={classes.AccountDetails}*/></TransactionsDetails>
 
         </div>
     )

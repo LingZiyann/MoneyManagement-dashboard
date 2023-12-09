@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+
 import { Routes, Route, useNavigate, BrowserRouter } from "react-router-dom";
 import './App.css';
 import Home from './Pages/Home/Home';
@@ -11,22 +11,22 @@ import { AuthContext } from './context/auth-context';
 import { useCallback, useEffect, useState } from 'react';
 import Login from './users/Login';
 
-let logoutTimer;
+let logoutTimer:number;
 
 function App() {
-  const [token, setToken] = useState(false);
-  const [tokenExpirationDate, setTokenExpirationDate] = useState();
-  const [userId, setUserId] = useState(false);
+  const [token, setToken] = useState<string|null>(null);
+  const [tokenExpirationDate, setTokenExpirationDate] = useState<Date|null>(null);
+  const [userId, setUserId] = useState<string|null>(null);
 
-  const login = useCallback((uid, token, expirationDate) => {
+  const login = useCallback((uid: string, token: string, expirationDate: Date) => {
     setToken(token);
     setUserId(uid);
     const tokenExpirationDate =
-      expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
+      expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60 * 100);
     setTokenExpirationDate(tokenExpirationDate);
     localStorage.setItem('userId', uid);
     localStorage.setItem('token', token);
-    localStorage.setItem('expiration', tokenExpirationDate);
+    localStorage.setItem('expiration', tokenExpirationDate.toISOString());
 
   }, []);
 
@@ -34,13 +34,15 @@ function App() {
     setToken(null);
     setTokenExpirationDate(null);
     setUserId(null);
-    localStorage.removeItem('token', 'expiration', 'userId');
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiration');
+    localStorage.removeItem('userId');
   }, []);
 
   useEffect(() => {
     if (token && tokenExpirationDate) {
       const remainingTime = tokenExpirationDate.getTime() - new Date().getTime();
-      logoutTimer = setTimeout(logout, remainingTime);
+      logoutTimer = window.setTimeout(logout, remainingTime);
     } else {
       clearTimeout(logoutTimer);
     }
@@ -52,7 +54,7 @@ function App() {
     const myExpiration = localStorage.getItem('expiration');
     if (
       myUid &&
-      myToken &&
+      myToken && myExpiration &&
       new Date(myExpiration) > new Date()
     ) {
       login(myUid, myToken, new Date(myExpiration));
@@ -85,7 +87,7 @@ function App() {
 
   return (
     <div className="App">
-      <AuthContext.Provider value={{userId: userId, token: token, login: login, logout: logout}}>
+      <AuthContext.Provider value={{isLoggedIn:false, userId: userId, token: token, login: login, logout: logout}}>
         <BrowserRouter basename='/MoneyManagement-dashboard'>
           {token && <MySidebar></MySidebar>}
           {routes}

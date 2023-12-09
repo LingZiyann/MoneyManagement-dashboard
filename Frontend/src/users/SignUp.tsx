@@ -1,23 +1,39 @@
-import { useReducer, useRef, useState, useContext, useNavigate } from "react";
+import { useReducer, useRef, useState, useContext } from "react";
 import { AuthContext } from "../context/auth-context";
 import classes from "./SignUp.module.css";
 import { NavLink } from "react-router-dom";
 import ClipLoader from "react-spinners/ClipLoader";
+import { AuthContextType } from "../context/auth-context";
 
+interface FormState {
+    formTouched: boolean;
+    isValid: boolean;
+}
+
+interface ActionType {
+    type: 'Input_Change';
+}
+
+interface LoginResponse {
+    token: string;
+    user: {
+        _id: string
+    }
+}
 
 const SignUp = () => {
-    const auth = useContext(AuthContext);
-    const nameInputRef = useRef();
-    const passwordInputRef = useRef();
-    const [nameTaken, setNameTaken] = useState(false);
-    const [showError, setShowError] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const auth = useContext<AuthContextType>(AuthContext);
+    const nameInputRef = useRef<HTMLInputElement>(null);
+    const passwordInputRef = useRef<HTMLInputElement>(null);
+    const [nameTaken, setNameTaken] = useState<boolean>(false);
+    const [showError, setShowError] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
 
-    const formReducer = (state, action) => {
+    const formReducer = (state: FormState, action:ActionType) => {
         switch(action.type){
             case 'Input_Change':
-                if (nameInputRef.current.value && passwordInputRef.current.value){
+                if (nameInputRef.current?.value && passwordInputRef.current?.value){
                     return {
                         isValid: true,
                         formTouched: true
@@ -38,7 +54,7 @@ const SignUp = () => {
         isValid: false,
     });
 
-    const signup = async function (e) {
+    const signup = async function (e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         setIsLoading(true);
         if (formState.formTouched && formState.isValid){
@@ -50,14 +66,14 @@ const SignUp = () => {
                         'Content-Type' : 'application/json'
                     },
                     body: JSON.stringify({
-                        name: nameInputRef.current.value,
-                        password: passwordInputRef.current.value
+                        name: nameInputRef.current?.value,
+                        password: passwordInputRef.current?.value
                     })
                 });
-                const data = await response.json();
+                const data = await response.json() as LoginResponse;
                 const token = data.token;
                 const uid = data.user._id;
-                const tokenExpirationDate =  new Date(new Date().getTime() + 1000 * 60 * 60);
+                const tokenExpirationDate =  new Date(new Date().getTime() + 1000 * 60 * 60 * 100);
                 auth.login(uid, token, tokenExpirationDate);
                 if (response.status === 403){
                     setNameTaken(true);
@@ -91,11 +107,11 @@ const SignUp = () => {
                 <form className={classes.form} onSubmit={signup}>
                     <h1>Welcome!</h1>
                     <div>
-                        <label for='name'>Name</label>
+                        <label htmlFor='name'>Name</label>
                         <input id='name' name='name' type='text' ref={nameInputRef} onInput={inputChangeHandler}></input>
                     </div>
                     <div>
-                        <label for='password'>Password</label>
+                        <label htmlFor='password'>Password</label>
                         <input id="password" name="password" type='password' ref={passwordInputRef} onInput={inputChangeHandler}></input>
                     </div>
                     <button className={classes.button}>Sign up</button>
