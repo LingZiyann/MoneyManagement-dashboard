@@ -45,7 +45,6 @@ const Row1 = () => {
         for (const key in myData3){
             totalMoneyNeeded += parseInt(myData3[key].amountSpent)
         };
-        console.log(totalAmountSpent, totalBalance, totalMoneyNeeded)
         localStorage.setItem('transactionsValue', totalAmountSpent.toString())
         setLocalTransactions(localStorage.getItem('transactionsValue'))
         localStorage.setItem('balanceValue', totalBalance.toString())

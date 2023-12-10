@@ -7,6 +7,7 @@ import Transactions from './Pages/Transactions/Transactions';
 import Balance from './Pages/Balance/Balance';
 import Planner from './Pages/Planner/Planner';
 import SignUp from './users/SignUp';
+import ToDoList from "./Components/TodoList/ToDoList";
 import { AuthContext } from './context/auth-context';
 import { useCallback, useEffect, useState } from 'react';
 import Login from './users/Login';
@@ -73,6 +74,7 @@ function App() {
           <Route path='/Transactions' element={<Transactions/>}></Route>
           <Route path='/Balance' element={<Balance/>}></Route>
           <Route path='/Planner' element={<Planner/>}></Route>
+          <Route path="/Todos" element={<ToDoList/>}></Route>
       </Routes>
     )
   } else {

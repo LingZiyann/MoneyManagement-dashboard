@@ -142,7 +142,7 @@ const PlannerDetails = () => {
                         </tr>
                     </tbody>    
                     {FormList}
-                </table>   
+                </table>
                 
                 {modalOpen ? (<NewFormModal CloseModal={CloseModal} submitData={addDataHandler} getData={getDataHandler} radioDataNeeded={false} category={"planner"}/>) : null}
             </div>

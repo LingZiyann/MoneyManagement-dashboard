@@ -13,7 +13,7 @@ type FormCrud = {
     FormList: (JSX.Element | null)[] | null
 }
 
-const useFormCRUD = (category: string,): FormCrud => {
+const useFormCRUD = (category: string): FormCrud => {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [removeFormId, setRemoveFormId] = useState<string>('');
     const [myLocalStorage, setMyLocalStorage] = useState<FormData[]>(localStorage.getItem(category) ? JSON.parse(localStorage.getItem(category)!) : null);

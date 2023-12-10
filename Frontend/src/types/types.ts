@@ -7,3 +7,8 @@ export interface FormData {
     category: string;
 }
 
+export interface todoType {
+    id?: string;
+    date: string;
+    content: string;
+}
