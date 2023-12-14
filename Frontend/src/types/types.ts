@@ -4,11 +4,13 @@ export interface FormData {
     radioData: string;
     activityName: string;
     amountSpent: number;
-    category: string;
+    category: string
 }
 
 export interface todoType {
     id?: string;
     date: string;
     content: string;
+    hoursTaken: number;
+    minutesTaken: number
 }
