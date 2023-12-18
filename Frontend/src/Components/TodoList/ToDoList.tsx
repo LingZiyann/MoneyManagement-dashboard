@@ -52,6 +52,7 @@ const ToDoList = () => {
             {modalOpen ? (<TodoFormModal CloseModal={CloseModal} submitData={addDataHandler} updateData={updateDataHandler} getData={getDataHandler} type={"create"}/>) : null}
             {editModalOpen ? (<TodoFormModal currentData={currentData} CloseEditModal={CloseEditModal} 
             submitData={addDataHandler} updateData={updateDataHandler} getData={getDataHandler} type={"update"} updatetodoId={updatetodoId}/>) : null}
+            
         </div>
     )
 

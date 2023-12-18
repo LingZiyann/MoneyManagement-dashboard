@@ -58,7 +58,6 @@ const Login = () => {
         setIsLoading(true);
         if (formState.formTouched && formState.isValid){
             try {
-                console.log('loging in!')
                 const response = await fetch( process.env.REACT_APP_BACKEND_URL + `/login`, {
                     method: 'POST',
                     headers: {
@@ -70,13 +69,14 @@ const Login = () => {
                     })
                 });
                 const data = await response.json() as LoginResponse;
+                if (response.status === 404 || !data.user){
+                    setWrongCredentials(true);
+                    return
+                }
                 const token = data.token;
                 const uid = data.user._id;
                 const tokenExpirationDate =  new Date(new Date().getTime() + 1000 * 60 * 60 * 100);
                 auth.login(uid, token, tokenExpirationDate);
-                if (response.status === 404){
-                    setWrongCredentials(true);
-                }
                 setWrongCredentials(false);
                 setIsLoading(false);
             } catch (err) {

@@ -14,17 +14,19 @@ const MySidebar = () => {
 
 
     return (
-        <nav className={sideBarOpen ? classes.SidebarcontainerOpen : classes.SidebarcontainerClosed}>
-                    { sideBarOpen ? (<FontAwesomeIcon className={classes.closeIcon} icon={faXmark}  color="#040d1c" cursor="pointer" onClick={openSidebar}/>) :
-                    (<FontAwesomeIcon className={classes.openIcon} icon={faBars} fontSize="2rem" color="#040d1c" cursor="pointer" onClick={openSidebar}/>)}
+        <div className={classes.dummysidebar} onMouseEnter={openSidebar} onMouseLeave={openSidebar}>
+                {/*{ sideBarOpen ? (<FontAwesomeIcon className={classes.closeIcon} icon={faXmark}  color="#040d1c" cursor="pointer" onClick={openSidebar}/>) :
+                (<FontAwesomeIcon className={classes.openIcon} icon={faBars} fontSize="2rem" color="#040d1c" cursor="pointer" onClick={openSidebar}/>)}*/}
+            <nav className={sideBarOpen ? classes.SidebarcontainerOpen : classes.SidebarcontainerClosed}>
                 <ul className={classes.list}>
-                    
-                    { sideBarOpen ? (<NavLink to='/Home' style={{ textDecoration: 'none' }} className={classes.navlink}><div><p>Home Page</p></div></NavLink>) : null}
-                    { sideBarOpen ? (<NavLink to='/Transactions' style={{ textDecoration: 'none' }}><div><p>Transactions</p></div></NavLink>) : null}
-                    { sideBarOpen ? (<NavLink to='/Balance' style={{ textDecoration: 'none' }}><div><p>Balance Details</p></div></NavLink>) : null}
-                    { sideBarOpen ? (<NavLink to='/planner' style={{ textDecoration: 'none' }}><div><p>Expenses Planner</p></div></NavLink>) : null}
+                    <NavLink to='/Home' style={{ textDecoration: 'none', whiteSpace: "nowrap"}} className={classes.navlink}><p>Home Page</p></NavLink>
+                    <NavLink to='/Transactions' style={{ textDecoration: 'none', whiteSpace: "nowrap" }}><p>Transactions</p></NavLink>
+                    <NavLink to='/Balance' style={{ textDecoration: 'none', whiteSpace: "nowrap" }}><p>Balance Details</p></NavLink>
+                    <NavLink to='/planner' style={{ textDecoration: 'none', whiteSpace: "nowrap" }}><p>Expenses Planner</p></NavLink>
+                    <NavLink to='/todos' style={{ textDecoration: 'none', whiteSpace: "nowrap" }}><p>Todo Planner</p></NavLink>
                 </ul>
-        </nav>
+            </nav>
+        </div>
     );
 };
 

@@ -14,3 +14,13 @@ export interface todoType {
     hoursTaken: number;
     minutesTaken: number
 }
+
+export interface FormListItem  {
+    id?: string;
+    buttonId?: string; 
+    date: string; 
+    number: number;
+    activityName: string;
+    amountSpent: string;
+    radioData: string; 
+  };

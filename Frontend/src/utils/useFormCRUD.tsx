@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { FormData } from "../types/types";
 import NewForm from '../Forms/AddNewForm/NewForm';
+import { FormListItem } from "../types/types";
+import { GridRowsProp } from "@mui/x-data-grid";
 
 type FormCrud = {
     modalOpen: boolean;
@@ -8,10 +10,12 @@ type FormCrud = {
     getDataHandler: () => Promise<void>;
     addDataHandler: (data: FormData) => Promise<void>;
     deleteDataHandler: (id: string) => Promise<void>;
+    deleteForm: (id: string) => void;
     OpenModal: () => void;
     CloseModal: () => void;
-    FormList: (JSX.Element | null)[] | null
+    FormList: FormListItem[] & GridRowsProp
 }
+
 
 const useFormCRUD = (category: string): FormCrud => {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -27,11 +31,11 @@ const useFormCRUD = (category: string): FormCrud => {
     const CloseModal = () => {
         setModalOpen(false);
     };
-    const deleteForm = (e: React.MouseEvent<HTMLButtonElement>) => {
-        setRemoveFormId(e.currentTarget.id);
+    const deleteForm = (id: string) => {
+        setRemoveFormId(id);
     };
 
-    const getDataHandler = async function () {
+    const getDataHandler = useCallback( async() =>{
         const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/${uid}/${category}`, {
             method: 'GET',
             headers: {
@@ -63,10 +67,10 @@ const useFormCRUD = (category: string): FormCrud => {
         };
         localStorage.setItem(category, JSON.stringify(transactionsList));
         setMyLocalStorage(JSON.parse(localStorage.getItem(category) ?? 'null'));
-    };
+    }, [token, uid, category]);
 
 
-    const addDataHandler =  async function (data:FormData) {
+    const addDataHandler = useCallback( async (data:FormData) => {
         try{
             const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/`, {
                 method: 'POST',
@@ -76,13 +80,25 @@ const useFormCRUD = (category: string): FormCrud => {
                 },
                 body: JSON.stringify(data),
             });
+            const responseData = await response.json();
+            setMyLocalStorage(prevData => {
+                const newData = {
+                    id: responseData._id,
+                    date: responseData.date? responseData.date.slice(0, 10).split('-').reverse().join('-') : "",
+                    activityName: responseData.activityName,
+                    amountSpent: responseData.amountSpent,
+                    radioData: responseData.radioData,
+                    category: responseData.radioData
+                };
+                return [...prevData, newData];
+            })
         } catch (e) {
             console.log(e);
         }
-        getDataHandler();
-    };
+        
+    }, [token, setMyLocalStorage])
 
-    const deleteDataHandler =  async function (removeFormId: string) {
+    const deleteDataHandler = useCallback( async (removeFormId: string) =>{
         if (removeFormId === ''){
             return
         }
@@ -94,23 +110,21 @@ const useFormCRUD = (category: string): FormCrud => {
             },
             //body: JSON.stringify(data),
         });
-        getDataHandler()
-    };
+        const updatedData = myLocalStorage.filter(data => data.id !== removeFormId);
+        setMyLocalStorage(updatedData);
+    }, [myLocalStorage, token]);
 
-    const FormList = myLocalStorage? myLocalStorage.map((form:FormData) => {
-        return (
-        <NewForm
-            key={form.id}
-            buttonId={form.id}
-            date={form.date}
-            number={myLocalStorage.indexOf(form) + 1}
-            activityName={form.activityName}
-            amountSpent={'$' + form.amountSpent}
-            radioData={form.radioData}
-            deleteForm={deleteForm}
-        />
-        );
-    }) : null ;
+    const FormList: FormListItem[] & GridRowsProp = useMemo(() => {
+        return myLocalStorage? myLocalStorage.map((form:FormData) => ({
+            id: form.id,
+            // buttonId: form.id,
+            date: form.date,
+            number: myLocalStorage.indexOf(form) + 1,
+            activityName: form.activityName,
+            amountSpent: '$' + form.amountSpent,
+            radioData: form.radioData,
+    })) : [] ;
+    }, [myLocalStorage]);
 
 
     return{
@@ -119,6 +133,7 @@ const useFormCRUD = (category: string): FormCrud => {
         getDataHandler,
         addDataHandler,
         deleteDataHandler,
+        deleteForm,
         OpenModal,
         CloseModal,
         FormList,

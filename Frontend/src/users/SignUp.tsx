@@ -59,7 +59,6 @@ const SignUp = () => {
         setIsLoading(true);
         if (formState.formTouched && formState.isValid){
             try {
-                console.log('signing up!')
                 const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/signup`, {
                     method: 'POST',
                     headers: {
@@ -71,17 +70,18 @@ const SignUp = () => {
                     })
                 });
                 const data = await response.json() as LoginResponse;
+                if (response.status === 403){
+                    setNameTaken(true);
+                    setIsLoading(false);
+                    return
+                }
                 const token = data.token;
                 const uid = data.user._id;
                 const tokenExpirationDate =  new Date(new Date().getTime() + 1000 * 60 * 60 * 100);
                 auth.login(uid, token, tokenExpirationDate);
-                if (response.status === 403){
-                    setNameTaken(true);
-                }
                 setShowError(false);
                 setIsLoading(false);
             } catch (err) {
-                console.log(err);
                 setIsLoading(false);
             }
         } else {
