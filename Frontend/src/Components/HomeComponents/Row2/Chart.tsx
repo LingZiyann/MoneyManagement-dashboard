@@ -23,13 +23,13 @@ const MyResponsiveLine = (props: lineProps) =>{
   const uid = localStorage.getItem('userId')
 
   async function getDataHandler () {
-      const response = await fetch(process.env.REACT_APP_BACKEND_URL +`/form/${uid}/transactions`, {
+    const response = await fetch(process.env.REACT_APP_BACKEND_URL +`/form/${uid}/transactions`, {
       method: 'GET',
       headers: {
           'Content-Type' : 'application/json',
           'Authorization' : `Bearer ${token}`
-        }
-      });
+      }
+    });
     const myData = await response.json();
     for (const key in myData){
       if (myData[key].date !== null) {

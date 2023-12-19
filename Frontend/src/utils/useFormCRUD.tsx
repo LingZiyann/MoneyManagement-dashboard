@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { FormData } from "../types/types";
-import NewForm from '../Forms/AddNewForm/NewForm';
+import { FormData, ResponseData } from "../types/types";
 import { FormListItem } from "../types/types";
 import { GridRowsProp } from "@mui/x-data-grid";
 
@@ -43,7 +42,7 @@ const useFormCRUD = (category: string): FormCrud => {
                 'Authorization' : `Bearer ${token}`
             }
         });
-        const myData = await response.json();
+        const myData = await response.json() as ResponseData[];
         const transactionsList = [];
         for (const key in myData){
             if (myData[key].date !== null){
@@ -71,6 +70,17 @@ const useFormCRUD = (category: string): FormCrud => {
 
 
     const addDataHandler = useCallback( async (data:FormData) => {
+        setMyLocalStorage(prevData => {
+            const newData = {
+                id: "",
+                date: data.date? data.date.slice(0, 10).split('-').reverse().join('-') : "",
+                activityName: data.activityName,
+                amountSpent: data.amountSpent,
+                radioData: data.radioData,
+                category: data.radioData
+            };
+            return [...prevData, newData];
+            })
         try{
             const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/form/`, {
                 method: 'POST',
@@ -80,18 +90,15 @@ const useFormCRUD = (category: string): FormCrud => {
                 },
                 body: JSON.stringify(data),
             });
-            const responseData = await response.json();
+            const responseData = await response.json() as ResponseData;
             setMyLocalStorage(prevData => {
-                const newData = {
-                    id: responseData._id,
-                    date: responseData.date? responseData.date.slice(0, 10).split('-').reverse().join('-') : "",
-                    activityName: responseData.activityName,
-                    amountSpent: responseData.amountSpent,
-                    radioData: responseData.radioData,
-                    category: responseData.radioData
-                };
-                return [...prevData, newData];
+                const lastIndex = prevData.length - 1;
+                console.log(prevData);
+                const lastItem = prevData[lastIndex];
+                const updatedLastItem = {...lastItem, id: responseData._id}
+                return [...prevData.slice(0, prevData.length - 1), updatedLastItem]
             })
+
         } catch (e) {
             console.log(e);
         }
@@ -99,6 +106,8 @@ const useFormCRUD = (category: string): FormCrud => {
     }, [token, setMyLocalStorage])
 
     const deleteDataHandler = useCallback( async (removeFormId: string) =>{
+        const updatedData = myLocalStorage.filter(data => data.id !== removeFormId);
+        setMyLocalStorage(updatedData);
         if (removeFormId === ''){
             return
         }
@@ -110,13 +119,11 @@ const useFormCRUD = (category: string): FormCrud => {
             },
             //body: JSON.stringify(data),
         });
-        const updatedData = myLocalStorage.filter(data => data.id !== removeFormId);
-        setMyLocalStorage(updatedData);
     }, [myLocalStorage, token]);
 
     const FormList: FormListItem[] & GridRowsProp = useMemo(() => {
         return myLocalStorage? myLocalStorage.map((form:FormData) => ({
-            id: form.id,
+            formid: form.id,
             // buttonId: form.id,
             date: form.date,
             number: myLocalStorage.indexOf(form) + 1,

@@ -7,6 +7,10 @@ export interface FormData {
     category: string
 }
 
+export interface ResponseData extends Omit<FormData, 'id'> {
+    _id: string;  // Assuming _id is always present in ResponseData
+}
+
 export interface todoType {
     id?: string;
     date: string;

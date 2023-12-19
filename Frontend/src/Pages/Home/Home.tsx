@@ -7,26 +7,26 @@ import { useState, useEffect } from 'react';
 
 const Home = () => {
     const [fontSize, setFontSize] = useState<number>(11)
-    const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+    // const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
-    useEffect(() => {
-      const handleWindowResize = () => {
-        setWindowWidth(window.innerWidth);
-      };
+    // useEffect(() => {
+    //   const handleWindowResize = () => {
+    //     setWindowWidth(window.innerWidth);
+    //   };
   
-      window.addEventListener('resize', handleWindowResize);
+    //   window.addEventListener('resize', handleWindowResize);
   
-      if (windowWidth < 420){
-        setFontSize(9);
-      } else {
-        setFontSize(11);
-      };
+    //   if (windowWidth < 420){
+    //     setFontSize(9);
+    //   } else {
+    //     setFontSize(11);
+    //   };
 
-      return () => {
-        window.removeEventListener('resize', handleWindowResize);
-      };
+    //   return () => {
+    //     window.removeEventListener('resize', handleWindowResize);
+    //   };
 
-    }, [windowWidth]);
+    // }, [windowWidth]);
 
     return(
         <div className={classes.Homecontainer}>

@@ -15,7 +15,7 @@
 }
 
 .dummysidebar{
-    width: 1rem;
+    width: 2rem;
     background-color: #1E4E79;
     left: 0;
     top: 0;
@@ -31,7 +31,7 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    transform: translateX(-100%);
+    transform: translateX(-200%);
     top: 0;
     z-index: 800;
     height: 100%;
@@ -68,6 +68,25 @@
 .list p:hover{
     background-color: #3A6F8F;
     transition: all 0.3s;
+}
+
+@media screen and (max-width: 1600px){
+    .dummysidebar ul p{
+        font-size: 1.2rem;
+    }
+    .SidebarcontainerOpen{
+        width: 13%;
+    }
+    
+}
+
+@media screen and (max-width: 1300px){
+    .dummysidebar ul p{
+        font-size: 1rem;
+    }
+    .SidebarcontainerOpen{
+        width: 17%;
+    }
 }
 
 @media screen and (max-width: 800px) {
